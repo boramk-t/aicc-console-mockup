@@ -62,7 +62,6 @@ body {
   background: var(--bg);
   min-height: 100vh;
   color: var(--text-primary);
-  overflow-x: hidden;
 }
 
 /* ===== ANOMALY BANNER ===== */
@@ -239,18 +238,19 @@ body {
 }
 .center-name { font-size: 13px; color: rgba(255,255,255,0.75); }
 
-/* 알림 요약 — Hero 하단 */
-.hero-alerts {
-  display: flex; align-items: center; gap: 8px; font-size: 13px;
-  margin-top: 4px;
+/* 긴급 알림 배너 — Hero 하단 (조건부) */
+.hero-critical {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 6px; padding: 8px 14px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius-sm);
+  font-size: 13px; color: white; cursor: pointer;
+  transition: background 0.2s;
 }
-.alert-critical { color: #fca5a5; font-weight: 600; cursor: pointer; transition: color 0.2s; }
-.alert-critical:hover { color: white; }
-.alert-normal   { color: #fde68a; font-weight: 600; cursor: pointer; transition: color 0.2s; }
-.alert-normal:hover { color: white; }
-.alert-info     { color: #bfdbfe; font-weight: 600; cursor: pointer; transition: color 0.2s; }
-.alert-info:hover { color: white; }
-.alert-divider  { color: rgba(255,255,255,0.3); }
+.hero-critical:hover { background: rgba(255,255,255,0.26); }
+.hero-critical strong { font-weight: 700; }
+.hero-critical-go { font-size: 12px; opacity: 0.85; margin-left: 4px; }
 
 .hero-right { display: flex; gap: 16px; position: relative; z-index: 1; flex-shrink: 0; }
 .hero-stat {
@@ -344,8 +344,7 @@ body {
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  /* 좌우 여백 128px(64×2), 갭 11×16px 제외한 1열 너비 × 비율 */
-  grid-auto-rows: calc((100vw - 128px - 11 * 16px) / 12 * 2.0);
+  grid-auto-rows: 150px;
   gap: 16px;
   width: 100%;
 }
@@ -456,15 +455,20 @@ body {
 }
 .warning-label { color: var(--yellow); background: var(--yellow-light); }
 
-/* AI 피드백 — hover 시에만 노출 */
-.card-feedback { display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; }
-.bento-card:hover .card-feedback { opacity: 1; }
-.feedback-btn {
-  background: var(--bg-subtle); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 3px 8px;
-  font-size: 11px; cursor: pointer; color: var(--text-muted); transition: all 0.2s;
+/* 이상 징후 Badge (카드 footer) */
+.anomaly-badge {
+  font-size: 11px; font-weight: 600; color: var(--yellow);
+  background: var(--yellow-light);
+  border: 1px solid #fcd34d;
+  padding: 3px 8px; border-radius: 20px;
 }
-.feedback-btn:hover { background: var(--uplus-magenta-pale); border-color: var(--uplus-magenta); color: var(--uplus-magenta); }
+
+/* 섹션 타이틀 AI 추천 chip */
+.ai-chip {
+  font-size: 11px; color: var(--uplus-magenta); font-weight: 500;
+  margin-left: 6px; background: var(--uplus-magenta-pale);
+  padding: 2px 8px; border-radius: 20px;
+}
 
 /* Warning overlay */
 .warning-overlay { position: absolute; top: 16px; right: 56px; font-size: 16px; opacity: 0.85; }

@@ -37,7 +37,7 @@
   <div class="gnb-right">
     <div class="gnb-icon-btn" title="알림">
       <span class="icon">🔔</span>
-      <span class="pulse-badge">9</span>
+      <span class="pulse-badge">1</span>
     </div>
     <div class="gnb-profile" onclick="toggleProfile()">
       <div class="avatar">김</div>
@@ -67,13 +67,9 @@
         <span class="role-badge">센터장</span>
         <span class="center-name">강남 고객센터</span>
       </div>
-      <!-- 알림 요약 — Hero 사용자 영역 하단 -->
-      <div class="hero-alerts">
-        <span class="alert-critical" onclick="showToast('긴급 알림 1건을 확인하세요.')">🔴 긴급 1건</span>
-        <span class="alert-divider">·</span>
-        <span class="alert-normal" onclick="showToast('일반 알림 5건이 있습니다.')">🟡 일반 5건</span>
-        <span class="alert-divider">·</span>
-        <span class="alert-info" onclick="showToast('참고 알림 3건이 있습니다.')">🔵 참고 3건</span>
+      <!-- 긴급 알림 배너 (조건부) -->
+      <div class="hero-critical" onclick="showToast('AI AutoQA 긴급 알림을 확인하세요.')">
+        🔴 <strong>AI AutoQA</strong> 긴급 알림 — 품질 점수 이상 감지 <span class="hero-critical-go">바로가기 ›</span>
       </div>
     </div>
     <div class="hero-right">
@@ -85,25 +81,20 @@
         <div class="stat-label">평균 품질</div>
         <div class="stat-value warning-text">62.3점</div>
       </div>
-      <div class="hero-stat">
-        <div class="stat-label">미처리 알림</div>
-        <div class="stat-value">9건</div>
-      </div>
     </div>
   </section>
 
-  <!-- 자주 찾는 메뉴 (AI 추천 5개 자동 표시) -->
+  <!-- 즐겨찾기 (AI 추천 5개 자동 표시) -->
   <section class="pinned-section">
     <div class="section-header">
-      <span class="section-title">🤍 자주 찾는 메뉴 <span style="font-size:11px;color:var(--uplus-magenta);font-weight:500;margin-left:6px;">AI 추천</span></span>
+      <span class="section-title">⭐ 즐겨찾기 <span class="ai-chip">AI 추천</span></span>
       <button class="btn-setting" onclick="openFavModal()">설정</button>
     </div>
     <div class="pinned-grid" id="pinnedGrid">
-      <!-- AI 추천 5개 자동 표시 -->
-      <div class="pinned-card" onclick="showToast('상담 Advisor › 대시보드로 이동합니다.')">
+      <div class="pinned-card" onclick="showToast('상담 어드바이저 › 대시보드로 이동합니다.')">
         <span class="pinned-icon">🎧</span>
         <div class="pinned-info">
-          <div class="pinned-service">상담 Advisor</div>
+          <div class="pinned-service">상담 어드바이저</div>
           <div class="pinned-menu">대시보드</div>
         </div>
       </div>
@@ -121,10 +112,10 @@
           <div class="pinned-menu">주간 리포트</div>
         </div>
       </div>
-      <div class="pinned-card" onclick="showToast('상담 Advisor › 상담 목록으로 이동합니다.')">
+      <div class="pinned-card" onclick="showToast('상담 어드바이저 › 상담 목록으로 이동합니다.')">
         <span class="pinned-icon">📋</span>
         <div class="pinned-info">
-          <div class="pinned-service">상담 Advisor</div>
+          <div class="pinned-service">상담 어드바이저</div>
           <div class="pinned-menu">상담 목록</div>
         </div>
       </div>
@@ -139,7 +130,7 @@
     <!-- AI 추천 넛지 -->
     <div class="nudge-card" id="nudgeCard">
       <span class="nudge-icon">💡</span>
-      <span class="nudge-text">AI가 사용 패턴을 분석해 <strong>'자주 찾는 메뉴'</strong>를 자동으로 추천했어요. 직접 변경하려면 설정을 눌러주세요.</span>
+      <span class="nudge-text">AI가 사용 패턴을 분석해 <strong>즐겨찾기</strong>를 자동으로 추천했어요. 직접 변경하려면 설정을 눌러주세요.</span>
       <button class="btn-nudge-accept" onclick="rejectNudge()">확인</button>
     </div>
   </section>
@@ -151,12 +142,11 @@
     </div>
     <div class="bento-grid">
 
-      <!-- Large: 상담 어드바이저 포털 (빈도 1위) — 6열 2행 -->
+      <!-- Large: 상담 어드바이저 포털 (빈도 1위) -->
       <div class="bento-card large active card-advisor tooltip-below" onclick="showToast('상담 어드바이저 포털로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap">
             <div class="card-icon-bg">🎧</div>
-            <span class="pulse-badge">5</span>
           </div>
           <div class="card-status">
             <span class="status-dot green"></span>
@@ -183,21 +173,15 @@
         </div>
         <div class="card-footer">
           <span class="ai-label">🤖 AI 추천 — 자주 사용하는 서비스</span>
-          <div class="card-feedback">
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('추천 품질 개선에 반영됩니다.')">👍 도움됨</button>
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('다음 추천에 반영됩니다.')">👎 별로</button>
-          </div>
         </div>
-        <div class="card-tooltip"><strong>상담 어드바이저 포털</strong><br/>🔴 긴급 알림 5건<br/>오늘 상담 1,284건 처리 중</div>
+        <div class="card-tooltip"><strong>상담 어드바이저 포털</strong><br/>오늘 상담 1,284건 처리 중<br/>이상 징후 없음</div>
       </div>
 
-      <!-- Medium: AI AutoQA (WARNING) — 3열 1행 -->
+      <!-- Medium: AI AutoQA (이상 징후) -->
       <div class="bento-card medium active card-autoqa warning-card tooltip-below" onclick="showToast('AI AutoQA로 이동합니다.')">
-        <div class="warning-overlay">⚠️</div>
         <div class="card-header">
           <div class="card-icon-wrap">
             <div class="card-icon-bg">✅</div>
-            <span class="pulse-badge">2</span>
           </div>
           <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영중</span></div>
         </div>
@@ -206,16 +190,12 @@
           <div class="card-desc">AI 기반 상담 품질 자동 평가</div>
         </div>
         <div class="card-footer">
-          <span class="ai-label warning-label">⚠️ 품질 점수 이상 감지</span>
-          <div class="card-feedback">
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👍</button>
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
-          </div>
+          <span class="anomaly-badge">⚠️ 이상 징후 감지</span>
         </div>
-        <div class="card-tooltip"><strong>AI AutoQA</strong><br/>🔴 긴급 알림 2건<br/>⚠️ 평균 품질 점수 20.6% 하락</div>
+        <div class="card-tooltip"><strong>AI AutoQA</strong><br/>⚠️ 평균 품질 점수 20.6% 하락<br/>이상 징후 감지됨</div>
       </div>
 
-      <!-- Medium: AI Insight — 3열 1행 -->
+      <!-- Medium: AI Insight -->
       <div class="bento-card medium active card-insight tooltip-below" onclick="showToast('AI Insight로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap"><div class="card-icon-bg">📊</div></div>
@@ -227,15 +207,11 @@
         </div>
         <div class="card-footer">
           <span class="ai-label">🤖 월요일 오전 추천</span>
-          <div class="card-feedback">
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👍</button>
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
-          </div>
         </div>
-        <div class="card-tooltip"><strong>AI Insight</strong><br/>🔴 긴급 알림 없음<br/>주간 리포트 생성 완료</div>
+        <div class="card-tooltip"><strong>AI Insight</strong><br/>주간 리포트 생성 완료<br/>이상 징후 없음</div>
       </div>
 
-      <!-- Wide: AI 상담봇 — 7열 1행 -->
+      <!-- Wide: AI 상담봇 -->
       <div class="bento-card wide active card-bot" onclick="showToast('AI 상담봇으로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap"><div class="card-icon-bg">🤖</div></div>
@@ -247,21 +223,14 @@
         </div>
         <div class="card-footer">
           <span class="ai-label">🤖 최근 사용</span>
-          <div class="card-feedback">
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👍</button>
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
-          </div>
         </div>
-        <div class="card-tooltip"><strong>AI 상담봇</strong><br/>🔴 긴급 알림 없음<br/>시나리오 3건 수정 대기</div>
+        <div class="card-tooltip"><strong>AI 상담봇</strong><br/>시나리오 3건 수정 대기<br/>이상 징후 없음</div>
       </div>
 
-      <!-- Ops: 통합 운영관리포털 — 5열 1행 -->
+      <!-- Ops: 통합 운영관리포털 -->
       <div class="bento-card ops active card-ops" onclick="showToast('통합 운영관리포털로 이동합니다.')">
         <div class="card-header">
-          <div class="card-icon-wrap">
-            <div class="card-icon-bg">⚙️</div>
-            <span class="pulse-badge">1</span>
-          </div>
+          <div class="card-icon-wrap"><div class="card-icon-bg">⚙️</div></div>
           <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영중</span></div>
         </div>
         <div class="card-body">
@@ -269,31 +238,27 @@
           <div class="card-desc">전체 서비스 권한·설정·사용자 관리</div>
         </div>
         <div class="card-footer">
-          <span class="ai-label">승인 대기 1건</span>
-          <div class="card-feedback">
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👍</button>
-            <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
-          </div>
+          <span class="ai-label">권한 관리 · 사용자 설정</span>
         </div>
-        <div class="card-tooltip"><strong>통합 운영관리포털</strong><br/>🔴 긴급 알림 1건<br/>권한 승인 대기 1건</div>
+        <div class="card-tooltip"><strong>통합 운영관리포털</strong><br/>권한 승인 대기 1건<br/>이상 징후 없음</div>
       </div>
 
     </div>
   </section>
 </main>
 
-<!-- 자주 찾는 메뉴 설정 모달 -->
+<!-- 즐겨찾기 설정 모달 -->
 <div class="modal-overlay" id="favModal" onclick="closeFavModal(event)">
   <div class="modal">
     <div class="modal-header">
-      <h2 class="modal-title">🤍 자주 찾는 메뉴 설정</h2>
+      <h2 class="modal-title">⭐ 즐겨찾기 설정</h2>
       <button class="modal-close" onclick="closeFavModalDirect()">✕</button>
     </div>
     <p class="modal-desc">자주 사용하는 서비스와 메뉴를 최대 5개 선택하세요. AI가 사용 패턴을 분석해 자동 추천도 제공합니다.</p>
     <div class="modal-list">
       <div class="modal-service-item">
         <label class="modal-checkbox-label">
-          <input type="checkbox" checked onchange="updateFavCount()"/> 🎧 상담 Advisor 포털
+          <input type="checkbox" checked onchange="updateFavCount()"/> 🎧 상담 어드바이저 포털
         </label>
         <select class="modal-menu-select">
           <option>대시보드</option><option>상담 목록</option><option>모니터링</option>
@@ -317,7 +282,7 @@
       </div>
       <div class="modal-service-item">
         <label class="modal-checkbox-label">
-          <input type="checkbox" checked onchange="updateFavCount()"/> 📋 상담 Advisor › 상담 목록
+          <input type="checkbox" checked onchange="updateFavCount()"/> 📋 상담 어드바이저 › 상담 목록
         </label>
         <select class="modal-menu-select">
           <option>상담 목록</option><option>오늘 상담</option>
