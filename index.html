@@ -152,7 +152,7 @@
     <div class="bento-grid">
 
       <!-- Large: 상담 어드바이저 포털 (빈도 1위) — 6열 2행 -->
-      <div class="bento-card large active card-advisor" onclick="showToast('상담 어드바이저 포털로 이동합니다.')">
+      <div class="bento-card large active card-advisor tooltip-below" onclick="showToast('상담 어드바이저 포털로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap">
             <div class="card-icon-bg">🎧</div>
@@ -188,11 +188,11 @@
             <button class="feedback-btn" onclick="event.stopPropagation();showToast('다음 추천에 반영됩니다.')">👎 별로</button>
           </div>
         </div>
-        <div class="card-tooltip"><strong>상담 어드바이저 포털</strong><br/>미확인 알림 5건<br/>오늘 상담 1,284건 처리 중</div>
+        <div class="card-tooltip"><strong>상담 어드바이저 포털</strong><br/>🔴 긴급 알림 5건<br/>오늘 상담 1,284건 처리 중</div>
       </div>
 
       <!-- Medium: AI AutoQA (WARNING) — 3열 1행 -->
-      <div class="bento-card medium active card-autoqa warning-card" onclick="showToast('AI AutoQA로 이동합니다.')">
+      <div class="bento-card medium active card-autoqa warning-card tooltip-below" onclick="showToast('AI AutoQA로 이동합니다.')">
         <div class="warning-overlay">⚠️</div>
         <div class="card-header">
           <div class="card-icon-wrap">
@@ -212,11 +212,11 @@
             <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
           </div>
         </div>
-        <div class="card-tooltip"><strong>AI AutoQA</strong><br/>⚠️ 평균 품질 점수 20.6% 하락<br/>미확인 알림 2건</div>
+        <div class="card-tooltip"><strong>AI AutoQA</strong><br/>🔴 긴급 알림 2건<br/>⚠️ 평균 품질 점수 20.6% 하락</div>
       </div>
 
-      <!-- Medium: AI Insight — 4열 1행 (AutoQA 옆, 합계 8열 → 나머지 4열은 다음 행) -->
-      <div class="bento-card medium active card-insight" onclick="showToast('AI Insight로 이동합니다.')">
+      <!-- Medium: AI Insight — 3열 1행 -->
+      <div class="bento-card medium active card-insight tooltip-below" onclick="showToast('AI Insight로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap"><div class="card-icon-bg">📊</div></div>
           <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영중</span></div>
@@ -232,7 +232,7 @@
             <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
           </div>
         </div>
-        <div class="card-tooltip"><strong>AI Insight</strong><br/>주간 리포트 생성 완료<br/>미확인 알림 1건</div>
+        <div class="card-tooltip"><strong>AI Insight</strong><br/>🔴 긴급 알림 없음<br/>주간 리포트 생성 완료</div>
       </div>
 
       <!-- Wide: AI 상담봇 — 7열 1행 -->
@@ -252,7 +252,7 @@
             <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
           </div>
         </div>
-        <div class="card-tooltip"><strong>AI 상담봇</strong><br/>시나리오 3건 수정 대기<br/>미확인 알림 없음</div>
+        <div class="card-tooltip"><strong>AI 상담봇</strong><br/>🔴 긴급 알림 없음<br/>시나리오 3건 수정 대기</div>
       </div>
 
       <!-- Ops: 통합 운영관리포털 — 5열 1행 -->
@@ -275,7 +275,7 @@
             <button class="feedback-btn" onclick="event.stopPropagation();showToast('피드백 감사합니다.')">👎</button>
           </div>
         </div>
-        <div class="card-tooltip"><strong>통합 운영관리포털</strong><br/>권한 승인 대기 1건<br/>미확인 알림 1건</div>
+        <div class="card-tooltip"><strong>통합 운영관리포털</strong><br/>🔴 긴급 알림 1건<br/>권한 승인 대기 1건</div>
       </div>
 
     </div>
