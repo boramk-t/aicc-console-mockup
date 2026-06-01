@@ -94,24 +94,24 @@ body {
   width: 100%;
 }
 .gnb-left { display: flex; align-items: center; gap: 20px; }
-.gnb-logo { cursor: pointer; display: flex; align-items: center; gap: 3px; }
+.gnb-logo { display: flex; align-items: center; gap: 3px; }
 .logo-uplus { font-size: 18px; font-weight: 900; color: var(--uplus-magenta); letter-spacing: -0.5px; }
 .logo-aicc  { font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; }
 
-/* Service Switcher */
+/* Service Switcher (로고 = 스위처) */
 .service-switcher {
-  position: relative; display: flex; align-items: center; gap: 6px;
-  padding: 6px 14px; background: var(--bg-subtle);
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  cursor: pointer; font-size: 13px; color: var(--text-secondary);
-  transition: all 0.2s; user-select: none;
+  position: relative; display: flex; align-items: center; gap: 8px;
+  padding: 6px 12px; background: transparent;
+  border: 1px solid transparent; border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 0.2s; user-select: none;
 }
-.service-switcher:hover { background: var(--uplus-magenta-pale); border-color: var(--uplus-magenta); color: var(--uplus-magenta); }
-.switcher-arrow { font-size: 10px; transition: transform 0.2s; }
+.service-switcher:hover { background: var(--uplus-magenta-pale); border-color: var(--uplus-magenta-border); }
+.service-switcher.open { background: var(--uplus-magenta-pale); border-color: var(--uplus-magenta-border); }
+.switcher-arrow { font-size: 11px; color: var(--text-muted); transition: transform 0.2s; }
 .service-switcher.open .switcher-arrow { transform: rotate(180deg); }
 .switcher-dropdown {
   display: none; position: absolute; top: calc(100% + 8px); left: 0;
-  min-width: 230px; background: #fff;
+  min-width: 240px; background: #fff;
   border: 1px solid var(--border); border-radius: var(--radius-md);
   box-shadow: var(--shadow); overflow: hidden; z-index: 300;
 }
