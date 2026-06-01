@@ -350,16 +350,14 @@ body {
   width: 100%;
 }
 
-/* Large: 6열 2행 */
+/* Large: 6열 2행 — 상담 어드바이저 */
 .bento-card.large  { grid-column: span 6; grid-row: span 2; }
 /* Medium: 3열 1행 — AutoQA, Insight */
 .bento-card.medium { grid-column: span 3; grid-row: span 1; }
-/* Wide: 4열 1행 — AI 상담봇 (2행 우측 6열 중 4열) */
-.bento-card.wide   { grid-column: span 4; grid-row: span 1; }
-/* Ops: 5열 1행 — 운영관리포털 (2행 우측 6열 중 5열) */
-.bento-card.ops    { grid-column: span 5; grid-row: span 1; }
-/* Small: 3열 1행 — 준비중 (1행 우측 6열 중 나머지 → 별도 행) */
-.bento-card.small  { grid-column: span 3; grid-row: span 1; }
+/* Wide: 6열 1행 — AI 상담봇 (2행 우측 채움) */
+.bento-card.wide   { grid-column: span 6; grid-row: span 1; }
+/* Ops: 12열 1행 — 운영관리포털 (3행 전체) */
+.bento-card.ops    { grid-column: span 12; grid-row: span 1; }
 
 .bento-card {
   position: relative;
