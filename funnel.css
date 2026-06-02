@@ -246,6 +246,8 @@ body {
 .jf-node.resolved { border-top-color: var(--green); }
 .jf-node-top { display: flex; align-items: center; justify-content: space-between; }
 .jf-name { font-size: 13px; font-weight: 700; }
+.jf-id { font-size: 10px; font-weight: 800; color: #fff; background: var(--uplus-magenta); padding: 1px 5px; border-radius: 4px; margin-right: 2px; }
+.jf-node.resolved .jf-id { background: var(--green); }
 .jf-rate { font-size: 12px; font-weight: 700; color: var(--uplus-magenta); }
 .jf-node.resolved .jf-rate { color: var(--green); }
 .jf-count { font-size: 16px; font-weight: 800; margin-top: 6px; }

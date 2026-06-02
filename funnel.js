@@ -18,12 +18,12 @@ document.addEventListener('click', (e) => {
 
 /* ===== 고객 여정 그래프 (Journey Flow) — 메인 라인 + 이탈 가지 ===== */
 const journeyStages = [
-  { name:'진입', count:48210, rate:100, sub:'ARS·챗봇·직통·채팅', leak:null },
-  { name:'봇 응대', count:41800, rate:86.7, sub:'콜봇·챗봇', leak:{ name:'미진입 이탈', count:6410, type:'drop' } },
-  { name:'봇 결과', count:25620, rate:61.3, sub:'봇 자동완결', leak:{ name:'봇 이탈', count:9770, type:'drop' } },
-  { name:'연결 대기', count:16180, rate:38.7, sub:'상담사 요청', leak:{ name:'대기중 이탈', count:2390, type:'abandon' } },
-  { name:'상담 진행', count:13790, rate:33.0, sub:'홈·모바일 / CS·로밍·기술', leak:null },
-  { name:'종료', count:11900, rate:24.7, sub:'해결 종료', type:'resolved', leak:{ name:'호이관', count:1220, type:'drop' } },
+  { id:'S1', name:'진입', count:48210, rate:100, sub:'ARS·챗봇·직통·채팅', leak:null },
+  { id:'S2', name:'봇 응대', count:41800, rate:86.7, sub:'콜봇·챗봇', leak:{ name:'미진입 이탈', count:6410, type:'drop' } },
+  { id:'S3', name:'봇 결과', count:25620, rate:61.3, sub:'봇 자동완결', leak:{ name:'봇 이탈', count:9770, type:'drop' } },
+  { id:'S4', name:'연결 대기', count:16180, rate:38.7, sub:'상담사 요청', leak:{ name:'대기중 이탈', count:2390, type:'abandon' } },
+  { id:'S5', name:'상담 진행', count:13790, rate:33.0, sub:'홈·모바일 / CS·로밍·기술', leak:null },
+  { id:'S6', name:'종료', count:11900, rate:24.7, sub:'해결 종료', type:'resolved', leak:{ name:'호이관', count:1220, type:'drop' } },
 ];
 function renderJourney() {
   const flow = journeyStages.map((s, i) => {
@@ -45,7 +45,7 @@ function renderJourney() {
         <div class="jf-main">
           <div class="jf-node ${s.type||'flow'}" onclick="showToast('${s.name} 상세로 이동합니다.')">
             <div class="jf-node-top">
-              <span class="jf-name">${s.name}</span>
+              <span class="jf-name"><span class="jf-id">${s.id}</span> ${s.name}</span>
               <span class="jf-rate">${s.rate}%</span>
             </div>
             <div class="jf-count">${s.count.toLocaleString()}건</div>
