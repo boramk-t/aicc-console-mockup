@@ -154,9 +154,88 @@ function openInsightDrawer(i) {
 function closeDrawer(e){ if(e.target===document.getElementById('drawer')) closeDrawerDirect(); }
 function closeDrawerDirect(){ document.getElementById('drawer').classList.remove('open'); }
 
+/* ===== 고객 여정 그래프 (Journey Flow) ===== */
+const journeyCols = [
+  { title:'진입', nodes:[
+    { name:'ARS', count:'20,250건', type:'flow', w:100 },
+    { name:'챗봇 직링크', count:'14,940건', type:'flow', w:74 },
+    { name:'상담사 직통', count:'8,680건', type:'flow', w:43 },
+    { name:'채팅상담 직링크', count:'4,340건', type:'flow', w:22 },
+  ]},
+  { title:'봇 응대', nodes:[
+    { name:'콜봇', count:'24,100건', type:'flow', w:100 },
+    { name:'챗봇', count:'17,700건', type:'flow', w:73 },
+  ]},
+  { title:'봇 결과', nodes:[
+    { name:'봇 해결', count:'25,620건', type:'resolved', w:100 },
+    { name:'이탈', count:'6,410건', type:'drop', w:25 },
+    { name:'상담사 요청', count:'16,180건', type:'flow', w:63 },
+  ]},
+  { title:'연결 대기', nodes:[
+    { name:'연결 성공', count:'13,790건', type:'flow', w:85 },
+    { name:'대기중 이탈', count:'2,390건', type:'abandon', w:15 },
+  ]},
+  { title:'상담', nodes:[
+    { name:'홈 채널', count:'7,580건', type:'flow', w:55 },
+    { name:'모바일 채널', count:'6,210건', type:'flow', w:45 },
+  ]},
+  { title:'종료', nodes:[
+    { name:'해결 종료', count:'11,900건', type:'resolved', w:100 },
+    { name:'호이관', count:'1,220건', type:'drop', w:10 },
+  ]},
+];
+function renderJourney() {
+  document.getElementById('journeyFlow').innerHTML = journeyCols.map(col => `
+    <div class="journey-col">
+      <div class="journey-col-title">${col.title}</div>
+      ${col.nodes.map(n => `
+        <div class="journey-node ${n.type}" onclick="showToast('${n.name} 상세로 이동합니다.')">
+          <div class="jn-name">${n.name}</div>
+          <div class="jn-count">${n.count}</div>
+          <div class="jn-bar" style="width:${n.w}%"></div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+/* ===== 진입 채널 믹스 ===== */
+const channelMix = [
+  { label:'ARS', pct:42, c:'c1' },
+  { label:'챗봇 직링크', pct:31, c:'c2' },
+  { label:'상담사 직통', pct:18, c:'c3' },
+  { label:'채팅상담 직링크', pct:9, c:'c4' },
+];
+function renderChannelMix() {
+  document.getElementById('channelMix').innerHTML = channelMix.map(m => `
+    <div class="mix-row">
+      <span class="mix-label">${m.label}</span>
+      <div class="mix-bar-track"><div class="mix-bar-fill ${m.c}" style="width:${m.pct}%">${m.pct}%</div></div>
+    </div>`).join('');
+}
+
+/* ===== 채널 × 상담유형 매트릭스 ===== */
+const typeMatrix = [
+  { label:'홈', cs:58, roaming:14, tech:28 },
+  { label:'모바일', cs:46, roaming:9, tech:45 },
+];
+function renderMatrix() {
+  const el = document.getElementById('typeMatrix');
+  el.innerHTML = typeMatrix.map(col => `
+    <div class="matrix-col">
+      <div class="matrix-stack" style="height:90%">
+        <div class="matrix-seg cs" style="height:${col.cs}%">${col.cs}</div>
+        <div class="matrix-seg roaming" style="height:${col.roaming}%">${col.roaming}</div>
+        <div class="matrix-seg tech" style="height:${col.tech}%">${col.tech}</div>
+      </div>
+      <span class="matrix-label">${col.label}</span>
+    </div>`).join('');
+}
+
 /* ===== INIT ===== */
 document.addEventListener('DOMContentLoaded', () => {
+  renderJourney();
   renderFunnel();
   renderInsights();
   renderTrend();
+  renderChannelMix();
+  renderMatrix();
 });

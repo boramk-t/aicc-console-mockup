@@ -115,6 +115,21 @@
     </div>
   </section>
 
+  <!-- 고객 여정 그래프 (Journey Flow) -->
+  <section class="panel journey-panel">
+    <div class="panel-header">
+      <h2 class="panel-title">고객 여정 흐름 (Journey Flow)</h2>
+      <span class="panel-hint">진입 → 분기 → 합류 → 종료 전체 흐름 · 노드를 클릭하면 상세로 이동</span>
+    </div>
+    <div class="journey-flow" id="journeyFlow"><!-- JS 렌더 --></div>
+    <div class="journey-legend">
+      <span class="jl-item"><i class="jl-dot resolved"></i> 해결</span>
+      <span class="jl-item"><i class="jl-dot drop"></i> 이탈</span>
+      <span class="jl-item"><i class="jl-dot abandon"></i> 대기중 이탈</span>
+      <span class="jl-item"><i class="jl-dot flow"></i> 진행 흐름</span>
+    </div>
+  </section>
+
   <!-- 본문 2단: 퍼널 시각화 + AI 인사이트 -->
   <div class="content-grid">
 
@@ -153,6 +168,32 @@
     </div>
     <div class="trend-chart" id="trendChart"></div>
   </section>
+
+  <!-- 인사이트 차트 2단 -->
+  <div class="chart-grid">
+    <!-- 진입 채널 믹스 -->
+    <section class="panel">
+      <div class="panel-header">
+        <h2 class="panel-title">진입 채널 믹스</h2>
+        <span class="panel-hint">진입로별 인입 비중</span>
+      </div>
+      <div class="mix-chart" id="channelMix"></div>
+    </section>
+
+    <!-- 채널 × 상담유형 분포 -->
+    <section class="panel">
+      <div class="panel-header">
+        <h2 class="panel-title">채널 × 상담유형 분포</h2>
+        <span class="panel-hint">홈/모바일 × CS·로밍·기술</span>
+      </div>
+      <div class="matrix-chart" id="typeMatrix"></div>
+      <div class="matrix-legend">
+        <span class="ml-item"><i class="ml-dot cs"></i> CS 일반</span>
+        <span class="ml-item"><i class="ml-dot roaming"></i> 로밍</span>
+        <span class="ml-item"><i class="ml-dot tech"></i> 기술</span>
+      </div>
+    </section>
+  </div>
 
 </main>
 

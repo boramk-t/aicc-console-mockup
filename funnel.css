@@ -212,3 +212,82 @@ body {
   .main-content { padding: 24px; }
   .gnb { padding: 0 24px; }
 }
+
+/* ===== 고객 여정 그래프 (Journey Flow) ===== */
+.journey-panel { width: 100%; }
+.journey-flow {
+  display: flex; align-items: stretch; gap: 0; overflow-x: auto;
+  padding: 8px 4px 16px;
+}
+.journey-col {
+  display: flex; flex-direction: column; gap: 10px;
+  min-width: 150px; flex: 1; position: relative;
+}
+.journey-col + .journey-col { margin-left: 28px; }
+/* 컬럼 사이 연결 화살표 */
+.journey-col + .journey-col::before {
+  content: '›'; position: absolute; left: -22px; top: 50%;
+  transform: translateY(-50%); color: var(--text-muted); font-size: 20px;
+}
+.journey-col-title {
+  font-size: 11px; font-weight: 700; color: var(--text-muted);
+  text-align: center; padding-bottom: 4px; border-bottom: 1px dashed var(--border);
+}
+.journey-node {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 10px 12px; cursor: pointer; transition: all 0.2s;
+}
+.journey-node:hover { border-color: var(--uplus-magenta); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+.jn-name { font-size: 12px; font-weight: 600; }
+.jn-count { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+.jn-bar { height: 4px; border-radius: 2px; margin-top: 8px; background: var(--uplus-magenta); }
+/* 노드 유형별 색 */
+.journey-node.resolved { border-left: 3px solid var(--green); }
+.journey-node.resolved .jn-bar { background: var(--green); }
+.journey-node.drop { border-left: 3px solid var(--red); }
+.journey-node.drop .jn-bar { background: var(--red); }
+.journey-node.abandon { border-left: 3px solid #f97316; }
+.journey-node.abandon .jn-bar { background: #f97316; }
+.journey-node.flow { border-left: 3px solid var(--uplus-magenta); }
+
+.journey-legend { display: flex; gap: 18px; justify-content: center; padding-top: 12px; border-top: 1px solid var(--border); }
+.jl-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); }
+.jl-dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.jl-dot.resolved { background: var(--green); }
+.jl-dot.drop { background: var(--red); }
+.jl-dot.abandon { background: #f97316; }
+.jl-dot.flow { background: var(--uplus-magenta); }
+
+/* ===== 인사이트 차트 2단 ===== */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* 진입 채널 믹스 (가로 막대) */
+.mix-chart { display: flex; flex-direction: column; gap: 14px; padding-top: 4px; }
+.mix-row { display: flex; align-items: center; gap: 12px; }
+.mix-label { font-size: 12px; color: var(--text-secondary); width: 110px; flex-shrink: 0; }
+.mix-bar-track { flex: 1; height: 22px; background: var(--bg-subtle); border-radius: 6px; overflow: hidden; }
+.mix-bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; color: #fff; font-size: 11px; font-weight: 700; transition: width 0.5s; }
+.mix-bar-fill.c1 { background: linear-gradient(90deg,#E6007E,#FF4DA6); }
+.mix-bar-fill.c2 { background: linear-gradient(90deg,#8b5cf6,#a78bfa); }
+.mix-bar-fill.c3 { background: linear-gradient(90deg,#3b82f6,#60a5fa); }
+.mix-bar-fill.c4 { background: linear-gradient(90deg,#10b981,#34d399); }
+
+/* 채널 × 상담유형 매트릭스 (누적 막대) */
+.matrix-chart { display: flex; gap: 28px; justify-content: center; align-items: flex-end; height: 220px; padding-top: 10px; }
+.matrix-col { display: flex; flex-direction: column; align-items: center; gap: 10px; height: 100%; justify-content: flex-end; }
+.matrix-stack { width: 64px; display: flex; flex-direction: column-reverse; border-radius: 6px 6px 0 0; overflow: hidden; }
+.matrix-seg { width: 100%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; }
+.matrix-seg.cs { background: #E6007E; }
+.matrix-seg.roaming { background: #f59e0b; }
+.matrix-seg.tech { background: #3b82f6; }
+.matrix-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.matrix-legend { display: flex; gap: 16px; justify-content: center; margin-top: 14px; }
+.ml-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); }
+.ml-dot { width: 10px; height: 10px; border-radius: 3px; }
+.ml-dot.cs { background: #E6007E; }
+.ml-dot.roaming { background: #f59e0b; }
+.ml-dot.tech { background: #3b82f6; }
+
+@media (max-width: 1100px) {
+  .chart-grid { grid-template-columns: 1fr; }
+}
