@@ -115,84 +115,68 @@
     </div>
   </section>
 
-  <!-- 고객 여정 그래프 (Journey Flow) -->
+  <!-- 고객 여정 흐름 (Journey Flow) — 단일 통합 시각화 -->
   <section class="panel journey-panel">
     <div class="panel-header">
       <h2 class="panel-title">고객 여정 흐름 (Journey Flow)</h2>
-      <span class="panel-hint">진입 → 분기 → 합류 → 종료 전체 흐름 · 노드를 클릭하면 상세로 이동</span>
+      <span class="panel-hint">진입 → 봇 → 연결 → 상담 → 종료 · 메인 라인은 진행, 아래 가지는 이탈 · 노드 클릭 시 상세</span>
     </div>
     <div class="journey-flow" id="journeyFlow"><!-- JS 렌더 --></div>
     <div class="journey-legend">
-      <span class="jl-item"><i class="jl-dot resolved"></i> 해결</span>
+      <span class="jl-item"><i class="jl-dot flow"></i> 진행 흐름</span>
+      <span class="jl-item"><i class="jl-dot resolved"></i> 해결 종료</span>
       <span class="jl-item"><i class="jl-dot drop"></i> 이탈</span>
       <span class="jl-item"><i class="jl-dot abandon"></i> 대기중 이탈</span>
-      <span class="jl-item"><i class="jl-dot flow"></i> 진행 흐름</span>
     </div>
   </section>
 
-  <!-- 본문 2단: 퍼널 시각화 + AI 인사이트 -->
+  <!-- 본문 2단: AI 인사이트(메인) + 분석 차트(서브) -->
   <div class="content-grid">
 
-    <!-- 퍼널 시각화 (F1-4) -->
-    <section class="panel funnel-panel">
-      <div class="panel-header">
-        <h2 class="panel-title">고객 여정 퍼널</h2>
-        <span class="panel-hint">단계를 클릭하면 상세 분석으로 이동합니다</span>
-      </div>
-      <div class="funnel-flow" id="funnelFlow">
-        <!-- 단계는 JS로 렌더 -->
-      </div>
-    </section>
-
-    <!-- AI 인사이트 패널 (F1-6) -->
-    <aside class="panel insight-panel">
+    <!-- AI 인사이트 — 핵심, 메인 영역 -->
+    <section class="panel insight-panel">
       <div class="panel-header">
         <h2 class="panel-title">🤖 AI 인사이트</h2>
-        <span class="insight-count">중요 3건</span>
+        <span class="insight-count">중요 3건 · 신규 1건</span>
       </div>
-      <div class="insight-list" id="insightList">
-        <!-- 인사이트 카드는 JS로 렌더 -->
-      </div>
+      <div class="insight-list" id="insightList"><!-- JS 렌더 --></div>
+    </section>
+
+    <!-- 분석 차트 (서브) -->
+    <aside class="side-charts">
+      <!-- 추세 -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">대기 이탈률 추세</h2>
+          <div class="seg-control small">
+            <button class="seg-btn active">주</button>
+            <button class="seg-btn">월</button>
+          </div>
+        </div>
+        <div class="trend-chart" id="trendChart"></div>
+      </section>
+
+      <!-- 진입 채널 믹스 -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">진입 채널 믹스</h2>
+        </div>
+        <div class="mix-chart" id="channelMix"></div>
+      </section>
+
+      <!-- 채널 × 상담유형 -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">채널 × 상담유형</h2>
+        </div>
+        <div class="matrix-chart" id="typeMatrix"></div>
+        <div class="matrix-legend">
+          <span class="ml-item"><i class="ml-dot cs"></i> CS 일반</span>
+          <span class="ml-item"><i class="ml-dot roaming"></i> 로밍</span>
+          <span class="ml-item"><i class="ml-dot tech"></i> 기술</span>
+        </div>
+      </section>
     </aside>
-  </div>
-
-  <!-- 추세 그래프 (F1-7) -->
-  <section class="panel trend-panel">
-    <div class="panel-header">
-      <h2 class="panel-title">주요 지표 추세</h2>
-      <div class="seg-control small">
-        <button class="seg-btn active">대기 이탈률</button>
-        <button class="seg-btn">봇 완결률</button>
-        <button class="seg-btn">완주율</button>
-      </div>
-    </div>
-    <div class="trend-chart" id="trendChart"></div>
-  </section>
-
-  <!-- 인사이트 차트 2단 -->
-  <div class="chart-grid">
-    <!-- 진입 채널 믹스 -->
-    <section class="panel">
-      <div class="panel-header">
-        <h2 class="panel-title">진입 채널 믹스</h2>
-        <span class="panel-hint">진입로별 인입 비중</span>
-      </div>
-      <div class="mix-chart" id="channelMix"></div>
-    </section>
-
-    <!-- 채널 × 상담유형 분포 -->
-    <section class="panel">
-      <div class="panel-header">
-        <h2 class="panel-title">채널 × 상담유형 분포</h2>
-        <span class="panel-hint">홈/모바일 × CS·로밍·기술</span>
-      </div>
-      <div class="matrix-chart" id="typeMatrix"></div>
-      <div class="matrix-legend">
-        <span class="ml-item"><i class="ml-dot cs"></i> CS 일반</span>
-        <span class="ml-item"><i class="ml-dot roaming"></i> 로밍</span>
-        <span class="ml-item"><i class="ml-dot tech"></i> 기술</span>
-      </div>
-    </section>
   </div>
 
 </main>
