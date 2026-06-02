@@ -7,6 +7,63 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+/* ===== 필터 상태 ===== */
+const filterState = { period:'주', entry:'전체', channel:'전체', type:'전체', team:'전체' };
+
+/* ===== 기간별 베이스 데이터셋 (목업) ===== */
+const periodData = {
+  '일': { inflow:7120, botRate:63.8, abandon:11.2, transfer:8.1, complete:75.9, inflowTrend:'▲ 2.1%', botTrend:'▼ 1.2%p', abandonTrend:'▲ 2.0%p', transferTrend:'▲ 0.5%p', completeTrend:'▼ 1.1%p',
+          trend:[{d:'0시',v:6.2},{d:'6시',v:7.1},{d:'9시',v:12.4},{d:'12시',v:9.8},{d:'15시',v:11.2,peak:true},{d:'18시',v:8.4},{d:'21시',v:7.0}] },
+  '주': { inflow:48210, botRate:61.3, abandon:14.8, transfer:9.2, complete:72.5, inflowTrend:'▲ 4.2%', botTrend:'▼ 3.1%p', abandonTrend:'▲ 5.6%p', transferTrend:'▲ 1.3%p', completeTrend:'▼ 2.4%p',
+          trend:[{d:'월',v:9.1},{d:'화',v:9.8},{d:'수',v:11.2},{d:'목',v:10.5},{d:'금',v:12.9},{d:'토',v:14.8,peak:true},{d:'일',v:13.1}] },
+  '월': { inflow:205400, botRate:62.0, abandon:13.1, transfer:8.8, complete:73.8, inflowTrend:'▲ 6.5%', botTrend:'▼ 0.8%p', abandonTrend:'▲ 3.2%p', transferTrend:'▲ 0.9%p', completeTrend:'▼ 1.5%p',
+          trend:[{d:'1주',v:10.2},{d:'2주',v:11.8},{d:'3주',v:13.1,peak:true},{d:'4주',v:12.4}] },
+};
+// 진입채널/채널/상담유형 필터 가중치 (목업 — 곱해서 변동 효과)
+const factor = {
+  entry: { '전체':1, 'ARS':0.42, '챗봇 직링크':0.31, '상담사 직통':0.18, '채팅상담 직링크':0.09 },
+  channel: { '전체':1, '홈':0.55, '모바일':0.45 },
+  type: { '전체':1, 'CS 일반':0.52, '로밍':0.12, '기술':0.36 },
+};
+function curData() {
+  const base = periodData[filterState.period];
+  const f = factor.entry[filterState.entry] * factor.channel[filterState.channel] * factor.type[filterState.type];
+  return { ...base, inflow: Math.round(base.inflow * f) };
+}
+
+/* ===== KPI 렌더 ===== */
+function renderKpi() {
+  const d = curData();
+  const cards = [
+    { label:'전체 인입', value:d.inflow.toLocaleString(), unit:'건', trend:d.inflowTrend, cls:'up' },
+    { label:'봇 자동완결률', value:d.botRate, unit:'%', trend:d.botTrend, cls:'down' },
+    { label:'대기 이탈률', value:d.abandon, unit:'%', trend:d.abandonTrend, cls:'up bad', alert:true },
+    { label:'호이관율', value:d.transfer, unit:'%', trend:d.transferTrend, cls:'up bad' },
+    { label:'End-to-End 완주율', value:d.complete, unit:'%', trend:d.completeTrend, cls:'down bad' },
+  ];
+  document.getElementById('kpiRow').innerHTML = cards.map(c => `
+    <div class="kpi-card ${c.alert?'alert':''}">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value">${c.value}<span class="kpi-unit">${c.unit}</span></div>
+      <div class="kpi-trend ${c.cls}">${c.trend}</div>
+    </div>`).join('');
+}
+
+/* ===== 필터 적용 ===== */
+function applyFilter() {
+  filterState.entry = document.getElementById('fEntry').value;
+  filterState.channel = document.getElementById('fChannel').value;
+  filterState.type = document.getElementById('fType').value;
+  filterState.team = document.getElementById('fTeam').value;
+  renderKpi();
+  renderTrend();
+  const parts = [`기간 ${filterState.period}`];
+  if (filterState.entry !== '전체') parts.push(filterState.entry);
+  if (filterState.channel !== '전체') parts.push(filterState.channel);
+  if (filterState.type !== '전체') parts.push(filterState.type);
+  showToast(`필터 적용됨 · ${parts.join(' / ')}`);
+}
+
 /* ===== GNB 스위처 ===== */
 function toggleSwitcher() {
   document.getElementById('switcherBtn').classList.toggle('open');
@@ -15,6 +72,21 @@ document.addEventListener('click', (e) => {
   const s = document.getElementById('switcherBtn');
   if (s && !s.contains(e.target)) s.classList.remove('open');
 });
+
+/* ===== 기간 세그먼트 토글 ===== */
+function initPeriodSeg() {
+  const seg = document.getElementById('periodSeg');
+  seg.querySelectorAll('.seg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      seg.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterState.period = btn.dataset.period;
+      renderKpi();
+      renderTrend();
+      showToast(`기간을 '${filterState.period}' 기준으로 변경했어요.`);
+    });
+  });
+}
 
 /* ===== 고객 여정 그래프 (Journey Flow) — 메인 라인 + 이탈 가지 ===== */
 const journeyStages = [
@@ -80,6 +152,7 @@ const insights = [
     confidence:'추정 (신뢰도: 중간)',
     actions:['피크타임에 상담 인력을 더 배치해 보시길 권장합니다 [운영자]','예상 대기시간 안내나 콜백 기능 도입을 검토해 보세요 [기획]'],
     evidence:'ACD/CTI 대기 로그 · 시간대별 이탈 분포',
+    service:{ name:'상담 어드바이저 포털', menu:'실시간 대기/인입 현황', url:'index.html' },
   },
   {
     severity:'high', sevLabel:'높음', topic:'봇 실패 · 봇 결과', isNew:false,
@@ -87,7 +160,8 @@ const insights = [
     cause:'새로 나온 요금제 관련 발화가 아직 학습되지 않아서 생긴 문제로 보입니다.',
     confidence:'추정 (신뢰도: 중간)',
     actions:['해당 인텐트의 학습데이터를 보강해 주세요 [서비스팀]','임시로 FALLBACK 답변을 등록해 두시면 좋겠습니다 [운영자]'],
-    evidence:'DEFAULT_FALLBACK_LIST 3,200건 증가',
+    evidence:'DEFAULT_FALLBACK_LIST 3,200건 증가 · 인텐트별 실패율',
+    service:{ name:'AI 상담봇', menu:'인텐트/FALLBACK 관리', url:'index.html' },
   },
   {
     severity:'mid', sevLabel:'주의', topic:'호이관 · 종료', isNew:false,
@@ -96,6 +170,7 @@ const insights = [
     confidence:'추정 (신뢰도: 낮음)',
     actions:['초기 라우팅 코드 정의가 맞는지 점검해 보세요 [운영자]','기술 상담 스킬 교육을 검토해 보시길 권장합니다 [운영팀]'],
     evidence:'CTI 호 전환 로그 · 코드유형별 호이관',
+    service:{ name:'통합 운영관리포털', menu:'라우팅/스킬 관리', url:'index.html' },
   },
 ];
 function renderInsights() {
@@ -126,14 +201,11 @@ function renderInsights() {
 }
 function fb(type){ showToast(`피드백(${type}) 감사합니다. 인사이트 정확도 개선에 활용할게요.`); }
 
-/* ===== 추세 그래프 (대기 이탈률 7일) ===== */
-const trendData = [
-  { d:'월', v:9.1 }, { d:'화', v:9.8 }, { d:'수', v:11.2 }, { d:'목', v:10.5 },
-  { d:'금', v:12.9 }, { d:'토', v:14.8, peak:true }, { d:'일', v:13.1 },
-];
+/* ===== 추세 그래프 (현재 기간 기준) ===== */
 function renderTrend() {
-  const max = Math.max(...trendData.map(d=>d.v));
-  document.getElementById('trendChart').innerHTML = trendData.map(d => `
+  const data = periodData[filterState.period].trend;
+  const max = Math.max(...data.map(d=>d.v));
+  document.getElementById('trendChart').innerHTML = data.map(d => `
     <div class="trend-col">
       <div class="trend-bar-wrap">
         <div class="trend-bar ${d.peak?'peak':''}" style="height:${(d.v/max*100)}%">
@@ -208,15 +280,23 @@ function openInsightDrawer(i) {
     <h4>왜 그럴까요 (${it.confidence})</h4><p>${it.cause}</p>
     <h4>이렇게 해보세요</h4><p>${it.actions.map(a=>'· '+a).join('<br/>')}</p>
     <h4>근거 데이터</h4>
-    <div class="drawer-stat"><span>${it.evidence}</span><strong>원천 조회</strong></div>
-    <p style="margin-top:14px;font-size:12px;color:var(--text-muted);">※ 원인은 데이터 상관을 기반으로 추정한 내용이라 확정은 아닙니다. 실제 조치 전에 한 번 더 확인해 주세요.</p>`;
+    <div class="drawer-stat"><span>${it.evidence}</span></div>
+    <div class="drawer-service">
+      <div class="ds-label">조치하러 가기</div>
+      <div class="ds-name">${it.service.name} <span class="ds-menu">› ${it.service.menu}</span></div>
+      <button class="drawer-cta" onclick="goService('${it.service.url}','${it.service.name}')">해당 서비스로 이동하기 ›</button>
+    </div>
+    <p style="margin-top:12px;font-size:12px;color:var(--text-muted);">※ 원인은 데이터 상관을 기반으로 추정한 내용이라 확정은 아닙니다. 실제 조치 전에 한 번 더 확인해 주세요.</p>`;
   document.getElementById('drawer').classList.add('open');
 }
+function goService(url, name){ showToast(`${name}(으)로 이동합니다.`); setTimeout(()=>{ location.href = url; }, 600); }
 function closeDrawer(e){ if(e.target===document.getElementById('drawer')) closeDrawerDirect(); }
 function closeDrawerDirect(){ document.getElementById('drawer').classList.remove('open'); }
 
 /* ===== INIT ===== */
 document.addEventListener('DOMContentLoaded', () => {
+  initPeriodSeg();
+  renderKpi();
   renderJourney();
   renderInsights();
   renderTrend();

@@ -241,6 +241,12 @@ body {
 .drawer-list { margin: 4px 0 0 18px; font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
 .drawer-cta { width: 100%; margin-top: 18px; background: var(--uplus-magenta); border: none; color: #fff; font-size: 13px; font-weight: 600; padding: 11px; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s; }
 .drawer-cta:hover { background: #C2006A; }
+/* 인사이트 → 서비스 이동 블록 */
+.drawer-service { margin-top: 18px; padding: 16px; background: var(--uplus-magenta-pale); border: 1px solid var(--uplus-magenta-border); border-radius: var(--radius-md); }
+.ds-label { font-size: 11px; font-weight: 700; color: var(--uplus-magenta); margin-bottom: 6px; }
+.ds-name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.ds-menu { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+.drawer-service .drawer-cta { margin-top: 12px; }
 
 /* ===== Toast ===== */
 .toast { position: fixed; bottom: 28px; right: 28px; background: var(--text-primary); color: #fff; border-radius: var(--radius-md); padding: 13px 20px; font-size: 13px; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; z-index: 1000; max-width: 360px; }

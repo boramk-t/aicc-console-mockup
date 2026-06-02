@@ -9,6 +9,34 @@
   // 이미 인증된 세션이면 통과
   if (sessionStorage.getItem(SESSION_KEY) === "1") return;
 
+  // 게이트 전용 스타일 주입 (페이지 CSS와 무관하게 항상 중앙 정렬 보장)
+  const gateStyle = document.createElement("style");
+  gateStyle.id = "gate-style";
+  gateStyle.textContent = `
+    #gate-overlay {
+      position: fixed; inset: 0; z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #F472B6 0%, #DB2777 100%);
+    }
+    #gate-overlay .gate-card {
+      background: #fff; border-radius: 20px; padding: 40px 36px;
+      width: 360px; max-width: 90vw; text-align: center;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+      font-family: 'Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+    }
+    #gate-overlay .gate-logo { margin-bottom: 18px; }
+    #gate-overlay .gate-uplus { font-size: 24px; font-weight: 900; color: #E6007E; }
+    #gate-overlay .gate-title { font-size: 20px; font-weight: 700; color: #111827; margin-left: 3px; }
+    #gate-overlay .gate-desc { font-size: 13px; color: #4B5563; margin-bottom: 24px; }
+    #gate-overlay #gate-form { display: flex; flex-direction: column; gap: 10px; }
+    #gate-overlay #gate-input { width: 100%; padding: 12px 14px; font-size: 14px; border: 1px solid #E4E7F0; border-radius: 10px; outline: none; }
+    #gate-overlay #gate-input:focus { border-color: #E6007E; }
+    #gate-overlay #gate-form button { width: 100%; padding: 12px; font-size: 14px; font-weight: 600; background: #E6007E; color: #fff; border: none; border-radius: 10px; cursor: pointer; }
+    #gate-overlay #gate-form button:hover { background: #C2006A; }
+    #gate-overlay .gate-error { font-size: 12px; color: #EF4444; margin-top: 12px; min-height: 16px; }
+  `;
+  document.documentElement.appendChild(gateStyle);
+
   // 본문 숨김
   const style = document.createElement("style");
   style.id = "gate-hide-style";
