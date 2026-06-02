@@ -63,26 +63,26 @@ function renderJourney() {
 const insights = [
   {
     severity:'high', sevLabel:'높음', topic:'대기 이탈 · 연결 대기', isNew:true,
-    fact:'상담사 연결 <strong>대기 이탈률 9.2% → 14.8%</strong> (전주比 +5.6%p)',
-    cause:'평균 대기시간 2분 12초 초과 + 피크타임(10~11시) 인입 집중 추정',
+    fact:'상담사 연결 <strong>대기 이탈률이 9.2%에서 14.8%로 올랐습니다</strong> (전주 대비 +5.6%p).',
+    cause:'평균 대기시간이 2분 12초를 넘겼고, 오전 피크타임(10~11시)에 인입이 몰린 영향으로 보입니다.',
     confidence:'추정 (신뢰도: 중간)',
-    actions:['피크타임 상담 인력 재배치 검토 [운영자]','예상 대기시간 안내·콜백 도입 검토 [기획]'],
+    actions:['피크타임에 상담 인력을 더 배치해 보시길 권장합니다 [운영자]','예상 대기시간 안내나 콜백 기능 도입을 검토해 보세요 [기획]'],
     evidence:'ACD/CTI 대기 로그 · 시간대별 이탈 분포',
   },
   {
     severity:'high', sevLabel:'높음', topic:'봇 실패 · 봇 결과', isNew:false,
-    fact:'<strong>요금조회 인텐트 응답 실패율 12% → 31%</strong> (전주比)',
-    cause:'신규 요금제 발화 미학습으로 추정',
+    fact:'<strong>요금조회 인텐트의 응답 실패율이 12%에서 31%로 급증했습니다</strong> (전주 대비).',
+    cause:'새로 나온 요금제 관련 발화가 아직 학습되지 않아서 생긴 문제로 보입니다.',
     confidence:'추정 (신뢰도: 중간)',
-    actions:['해당 인텐트 학습데이터 보강 [서비스팀]','FALLBACK 임시 답변 등록 [운영자]'],
-    evidence:'DEFAULT_FALLBACK_LIST 3,200건 ↑',
+    actions:['해당 인텐트의 학습데이터를 보강해 주세요 [서비스팀]','임시로 FALLBACK 답변을 등록해 두시면 좋겠습니다 [운영자]'],
+    evidence:'DEFAULT_FALLBACK_LIST 3,200건 증가',
   },
   {
     severity:'mid', sevLabel:'주의', topic:'호이관 · 종료', isNew:false,
-    fact:'<strong>CS일반 → 기술 호이관 18% 증가</strong>',
-    cause:'1차 상담사 기술문의 대응 스킬 갭 추정',
+    fact:'<strong>CS 일반에서 기술 상담으로 넘기는 호이관이 18% 늘었습니다.</strong>',
+    cause:'1차 상담사가 기술 문의에 바로 대응하기 어려운 스킬 갭이 있는 것으로 보입니다.',
     confidence:'추정 (신뢰도: 낮음)',
-    actions:['초기 라우팅 코드 정의 점검 [운영자]','기술상담 스킬 교육 검토 [운영팀]'],
+    actions:['초기 라우팅 코드 정의가 맞는지 점검해 보세요 [운영자]','기술 상담 스킬 교육을 검토해 보시길 권장합니다 [운영팀]'],
     evidence:'CTI 호 전환 로그 · 코드유형별 호이관',
   },
 ];
@@ -97,8 +97,8 @@ function renderInsights() {
       </div>
       <div class="ic-fact">${it.fact}</div>
       <div class="ic-body">
-        <div class="ic-row"><span class="ic-key cause">원인 추정</span><span class="ic-val">${it.cause}<span class="ic-confidence">· ${it.confidence}</span></span></div>
-        <div class="ic-row"><span class="ic-key action">권장 Action</span><span class="ic-val">${it.actions.map(a=>'· '+a).join('<br/>')}</span></div>
+        <div class="ic-row"><span class="ic-key cause">왜 그럴까요</span><span class="ic-val">${it.cause}<span class="ic-confidence">· ${it.confidence}</span></span></div>
+        <div class="ic-row"><span class="ic-key action">이렇게 해보세요</span><span class="ic-val">${it.actions.map(a=>'· '+a).join('<br/>')}</span></div>
       </div>
       <div class="ic-evidence">📊 ${it.evidence} <span class="ic-evidence-link" onclick="event.stopPropagation();openInsightDrawer(${i})">근거 상세 ›</span></div>
       <div class="ic-feedback">
@@ -166,12 +166,12 @@ function openInsightDrawer(i) {
   document.getElementById('drawerTitle').textContent = '인사이트 상세 · 근거';
   document.getElementById('drawerBody').innerHTML = `
     <div class="ic-head"><span class="ic-severity ${it.severity}">${it.sevLabel}</span><span class="ic-topic">${it.topic}</span></div>
-    <h4>현상 (집계 사실)</h4><p>${it.fact}</p>
-    <h4>원인 후보 (${it.confidence})</h4><p>${it.cause}</p>
-    <h4>권장 Action</h4><p>${it.actions.map(a=>'· '+a).join('<br/>')}</p>
+    <h4>지금 무슨 일이 있나요</h4><p>${it.fact}</p>
+    <h4>왜 그럴까요 (${it.confidence})</h4><p>${it.cause}</p>
+    <h4>이렇게 해보세요</h4><p>${it.actions.map(a=>'· '+a).join('<br/>')}</p>
     <h4>근거 데이터</h4>
     <div class="drawer-stat"><span>${it.evidence}</span><strong>원천 조회</strong></div>
-    <p style="margin-top:14px;font-size:12px;color:var(--text-muted);">※ 원인은 데이터 상관 기반 추정이며 확정이 아닙니다. 실제 조치 전 검증이 필요합니다.</p>`;
+    <p style="margin-top:14px;font-size:12px;color:var(--text-muted);">※ 원인은 데이터 상관을 기반으로 추정한 내용이라 확정은 아닙니다. 실제 조치 전에 한 번 더 확인해 주세요.</p>`;
   document.getElementById('drawer').classList.add('open');
 }
 function closeDrawer(e){ if(e.target===document.getElementById('drawer')) closeDrawerDirect(); }
