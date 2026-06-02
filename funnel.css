@@ -191,11 +191,30 @@ body {
 .ic-val { color: var(--text-secondary); flex: 1; }
 .ic-val strong { color: var(--text-primary); font-weight: 700; }
 .ic-confidence { font-size: 11px; color: var(--text-muted); margin-left: 4px; }
-.ic-evidence { display: flex; align-items: center; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 11px; color: var(--text-muted); }
-.ic-evidence-link { color: var(--uplus-magenta); font-weight: 600; cursor: pointer; margin-left: auto; }
-.ic-feedback { display: flex; gap: 6px; margin-top: 12px; }
-.ic-fb-btn { flex: 1; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px; font-size: 11px; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
-.ic-fb-btn:hover { background: var(--uplus-magenta-pale); border-color: var(--uplus-magenta); color: var(--uplus-magenta); }
+
+/* 근거 데이터 — 강조(크게) */
+.ic-evidence {
+  margin-top: 14px; padding: 14px 16px;
+  background: var(--bg-subtle); border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.ic-evidence-head { font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.ic-evidence-body { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
+.ic-evidence-btn {
+  width: 100%; background: #fff; border: 1px solid var(--uplus-magenta-border);
+  color: var(--uplus-magenta); font-size: 12px; font-weight: 600;
+  padding: 9px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s;
+}
+.ic-evidence-btn:hover { background: var(--uplus-magenta-pale); }
+
+/* 피드백 — 최소화(작게, 우측 정렬) */
+.ic-feedback { display: flex; align-items: center; gap: 8px; margin-top: 10px; justify-content: flex-end; }
+.ic-fb-label { font-size: 11px; color: var(--text-muted); }
+.ic-fb-icon {
+  width: 28px; height: 24px; background: transparent; border: 1px solid var(--border);
+  border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; padding: 0;
+}
+.ic-fb-icon:hover { background: var(--uplus-magenta-pale); border-color: var(--uplus-magenta); }
 
 /* ===== 추세 그래프 ===== */
 .trend-panel { width: 100%; }
@@ -219,6 +238,9 @@ body {
 .drawer-body h4 { font-size: 13px; color: var(--text-primary); margin: 18px 0 8px; }
 .drawer-stat { display: flex; justify-content: space-between; padding: 10px 14px; background: var(--bg-subtle); border-radius: var(--radius-sm); margin-bottom: 8px; font-size: 13px; }
 .drawer-stat strong { color: var(--text-primary); }
+.drawer-list { margin: 4px 0 0 18px; font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
+.drawer-cta { width: 100%; margin-top: 18px; background: var(--uplus-magenta); border: none; color: #fff; font-size: 13px; font-weight: 600; padding: 11px; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s; }
+.drawer-cta:hover { background: #C2006A; }
 
 /* ===== Toast ===== */
 .toast { position: fixed; bottom: 28px; right: 28px; background: var(--text-primary); color: #fff; border-radius: var(--radius-md); padding: 13px 20px; font-size: 13px; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; z-index: 1000; max-width: 360px; }

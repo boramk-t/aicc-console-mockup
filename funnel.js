@@ -18,12 +18,24 @@ document.addEventListener('click', (e) => {
 
 /* ===== 고객 여정 그래프 (Journey Flow) — 메인 라인 + 이탈 가지 ===== */
 const journeyStages = [
-  { id:'S1', name:'진입', count:48210, rate:100, sub:'ARS·챗봇·직통·채팅', leak:null },
-  { id:'S2', name:'봇 응대', count:41800, rate:86.7, sub:'콜봇·챗봇', leak:{ name:'미진입 이탈', count:6410, type:'drop' } },
-  { id:'S3', name:'봇 결과', count:25620, rate:61.3, sub:'봇 자동완결', leak:{ name:'봇 이탈', count:9770, type:'drop' } },
-  { id:'S4', name:'연결 대기', count:16180, rate:38.7, sub:'상담사 요청', leak:{ name:'대기중 이탈', count:2390, type:'abandon' } },
-  { id:'S5', name:'상담 진행', count:13790, rate:33.0, sub:'홈·모바일 / CS·로밍·기술', leak:null },
-  { id:'S6', name:'종료', count:11900, rate:24.7, sub:'해결 종료', type:'resolved', leak:{ name:'호이관', count:1220, type:'drop' } },
+  { id:'S1', name:'진입', count:48210, rate:100, sub:'ARS·챗봇·직통·채팅', leak:null,
+    drill:{ title:'진입 채널 분포', rows:[['ARS','20,250건 (42%)'],['챗봇 직링크','14,940건 (31%)'],['상담사 직통','8,680건 (18%)'],['채팅상담 직링크','4,340건 (9%)']],
+            extra:['ARS 유형 — 보이는 ARS 38% / 음성 ARS 62%'] } },
+  { id:'S2', name:'봇 응대', count:41800, rate:86.7, sub:'콜봇·챗봇', leak:{ name:'미진입 이탈', count:6410, type:'drop' },
+    drill:{ title:'봇 종류별 응대', rows:[['콜봇','24,100건 (58%)'],['챗봇','17,700건 (42%)']],
+            extra:['미진입 이탈 6,410건 — 봇 진입 전 이탈'] } },
+  { id:'S3', name:'봇 결과', count:25620, rate:61.3, sub:'봇 자동완결', leak:{ name:'봇 이탈', count:9770, type:'drop' },
+    drill:{ title:'인텐트별 응답 실패 Top', rows:[['요금조회','실패율 31% ▲'],['요금제 변경','실패율 18%'],['명의변경','실패율 12%'],['단말기 재고','실패율 9%']],
+            extra:['FALLBACK 상위 질문 3,200건 누적'] } },
+  { id:'S4', name:'연결 대기', count:16180, rate:38.7, sub:'상담사 요청', leak:{ name:'대기중 이탈', count:2390, type:'abandon' },
+    drill:{ title:'대기시간 구간별 이탈', rows:[['~30초','이탈 2%'],['30초~1분','이탈 7%'],['1~2분','이탈 13%'],['2분 초과','이탈 31% ▲']],
+            extra:['이탈 급증 임계: 2분 12초','피크타임(10~11시) 이탈 집중'] } },
+  { id:'S5', name:'상담 진행', count:13790, rate:33.0, sub:'홈·모바일 / CS·로밍·기술', leak:null,
+    drill:{ title:'채널 × 상담유형', rows:[['홈 · CS일반','58%'],['홈 · 기술','28%'],['모바일 · 기술','45%'],['모바일 · 로밍','9%']],
+            extra:['평균 처리시간 — 기술 7분 / CS 3분 / 로밍 9분'] } },
+  { id:'S6', name:'종료', count:11900, rate:24.7, sub:'해결 종료', type:'resolved', leak:{ name:'호이관', count:1220, type:'drop' },
+    drill:{ title:'종료 유형', rows:[['해결 종료','11,900건 (90.7%)'],['호이관','1,220건 (9.2%)']],
+            extra:['호이관 경로 — CS일반→기술 18% ▲','해결 후 3일 내 재인입 6.4%'] } },
 ];
 function renderJourney() {
   const flow = journeyStages.map((s, i) => {
@@ -43,7 +55,7 @@ function renderJourney() {
     return `
       <div class="jf-stage">
         <div class="jf-main">
-          <div class="jf-node ${s.type||'flow'}" onclick="showToast('${s.name} 상세로 이동합니다.')">
+          <div class="jf-node ${s.type||'flow'}" onclick="openStepDrawer(${i})">
             <div class="jf-node-top">
               <span class="jf-name"><span class="jf-id">${s.id}</span> ${s.name}</span>
               <span class="jf-rate">${s.rate}%</span>
@@ -100,15 +112,19 @@ function renderInsights() {
         <div class="ic-row"><span class="ic-key cause">왜 그럴까요</span><span class="ic-val">${it.cause}<span class="ic-confidence">· ${it.confidence}</span></span></div>
         <div class="ic-row"><span class="ic-key action">이렇게 해보세요</span><span class="ic-val">${it.actions.map(a=>'· '+a).join('<br/>')}</span></div>
       </div>
-      <div class="ic-evidence">📊 ${it.evidence} <span class="ic-evidence-link" onclick="event.stopPropagation();openInsightDrawer(${i})">근거 상세 ›</span></div>
+      <div class="ic-evidence">
+        <div class="ic-evidence-head">📊 근거 데이터</div>
+        <div class="ic-evidence-body">${it.evidence}</div>
+        <button class="ic-evidence-btn" onclick="event.stopPropagation();openInsightDrawer(${i})">원천 데이터 상세 보기 ›</button>
+      </div>
       <div class="ic-feedback">
-        <button class="ic-fb-btn" onclick="event.stopPropagation();fb('도움됨')">👍 도움됨</button>
-        <button class="ic-fb-btn" onclick="event.stopPropagation();fb('틀림')">👎 틀림</button>
-        <button class="ic-fb-btn" onclick="event.stopPropagation();fb('확인')">✓ 확인됨</button>
+        <span class="ic-fb-label">이 분석이 도움이 됐나요?</span>
+        <button class="ic-fb-icon" title="도움됨" onclick="event.stopPropagation();fb('도움됨')">👍</button>
+        <button class="ic-fb-icon" title="아니에요" onclick="event.stopPropagation();fb('아니에요')">👎</button>
       </div>
     </div>`).join('');
 }
-function fb(type){ showToast(`피드백(${type})이 반영되었습니다. 인사이트 정확도 개선에 활용됩니다.`); }
+function fb(type){ showToast(`피드백(${type}) 감사합니다. 인사이트 정확도 개선에 활용할게요.`); }
 
 /* ===== 추세 그래프 (대기 이탈률 7일) ===== */
 const trendData = [
@@ -161,6 +177,28 @@ function renderMatrix() {
 }
 
 /* ===== 드로어 ===== */
+function openStepDrawer(i) {
+  const s = journeyStages[i];
+  const d = s.drill;
+  const leakHtml = s.leak ? `
+    <h4>이탈 현황</h4>
+    <div class="drawer-stat"><span>${s.leak.name}</span><strong style="color:${s.leak.type==='abandon'?'#f97316':'var(--red)'}">${s.leak.count.toLocaleString()}건</strong></div>` : '';
+  const rows = d.rows.map(r => `<div class="drawer-stat"><span>${r[0]}</span><strong>${r[1]}</strong></div>`).join('');
+  const extra = d.extra.map(e => `<li>${e}</li>`).join('');
+  document.getElementById('drawerTitle').textContent = `${s.id}. ${s.name} 상세`;
+  document.getElementById('drawerBody').innerHTML = `
+    <h4>단계 요약</h4>
+    <div class="drawer-stat"><span>유입 건수</span><strong>${s.count.toLocaleString()}건</strong></div>
+    <div class="drawer-stat"><span>잔존율</span><strong>${s.rate}%</strong></div>
+    ${leakHtml}
+    <h4>${d.title}</h4>
+    ${rows}
+    <h4>눈여겨볼 점</h4>
+    <ul class="drawer-list">${extra}</ul>
+    <button class="drawer-cta" onclick="closeDrawerDirect()">관련 AI 인사이트 보기 ›</button>
+    <p style="margin-top:12px;font-size:12px;color:var(--text-muted);">※ 세그먼트 수치는 선택한 기간·필터 기준입니다.</p>`;
+  document.getElementById('drawer').classList.add('open');
+}
 function openInsightDrawer(i) {
   const it = insights[i];
   document.getElementById('drawerTitle').textContent = '인사이트 상세 · 근거';
