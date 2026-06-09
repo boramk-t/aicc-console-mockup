@@ -19,12 +19,12 @@
       </div>
       <span class="switcher-arrow">▾</span>
       <div class="switcher-dropdown">
-        <div class="switcher-item" onclick="location.href='index.html'"><span class="status-dot green"></span> 상담 어드바이저 포털</div>
+        <div class="switcher-item" onclick="location.href='index.html'"><span class="status-dot green"></span> AI 상담어드바이저포털</div>
         <div class="switcher-item"><span class="status-dot green"></span> AI AutoQA</div>
-        <div class="switcher-item"><span class="status-dot green"></span> AI VoiceToAction</div>
+        <div class="switcher-item"><span class="status-dot green"></span> AI V2A</div>
         <div class="switcher-item"><span class="status-dot green"></span> AI 상담봇</div>
         <div class="switcher-item"><span class="status-dot green"></span> 통합 운영관리포털</div>
-        <div class="switcher-item" onclick="location.href='funnel.html'"><span class="status-dot magenta"></span> AICC Funnel</div>
+        <div class="switcher-item" onclick="location.href='funnel.html'"><span class="status-dot magenta"></span> AICC Journey</div>
         <div class="switcher-item active"><span class="status-dot magenta"></span> AICC Watchtower</div>
       </div>
     </div>
@@ -79,6 +79,19 @@
       <span class="jl-item"><i class="load-dot warn"></i> 주의 (부하 150%↑ / 특정 집중)</span>
       <span class="jl-item"><i class="load-dot crit"></i> 위험 (부하 200%↑ / 지연·장애)</span>
     </div>
+  </section>
+
+  <!-- 2-1. 예측 레인 (Measurement vs Predictive) -->
+  <section class="panel forecast-panel">
+    <div class="panel-header">
+      <h2 class="panel-title">실시간 측정 vs 근미래 예측</h2>
+      <div class="seg-control small" id="horizonSeg">
+        <button class="seg-btn active" data-h="10">+10분</button>
+        <button class="seg-btn" data-h="30">+30분</button>
+      </div>
+    </div>
+    <div class="forecast-grid" id="forecastGrid"><!-- JS --></div>
+    <div class="forecast-reco" id="forecastReco"><!-- JS --></div>
   </section>
 
   <!-- 3. 실시간 이상 알림 (여정 바로 아래) -->

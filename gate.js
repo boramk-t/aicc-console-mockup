@@ -3,7 +3,13 @@
    - 정적 사이트용 간이 보호 (소스 노출 시 우회 가능)
 */
 (function () {
+  // 게이트 비활성화 토글: true 면 암호창 없이 통과 (로컬 확인용)
+  // 다시 보호하려면 false 로 변경.
+  const GATE_DISABLED = true;
+  if (GATE_DISABLED) return;
+
   const PASS_HASH = "2ad92a7ebf814925a4331f4702d9b0536418070c1e498152e46bc016526ef63d"; // AICC26
+  const PASS_PLAIN = "AICC26"; // file:// 등 crypto.subtle 미지원 환경 폴백
   const SESSION_KEY = "aicc_gate_ok";
 
   // 이미 인증된 세션이면 통과
@@ -48,6 +54,20 @@
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
   }
 
+  // crypto.subtle은 보안 컨텍스트(https/localhost)에서만 동작.
+  // file:// 로 직접 열면 미지원 → 평문 비교로 폴백.
+  async function checkPass(value) {
+    const hasSubtle = (typeof crypto !== "undefined") && crypto.subtle;
+    if (hasSubtle) {
+      try {
+        return (await sha256(value)) === PASS_HASH;
+      } catch (e) {
+        /* file:// 등에서 digest 실패 시 폴백 */
+      }
+    }
+    return value === PASS_PLAIN;
+  }
+
   function buildGate() {
     const overlay = document.createElement("div");
     overlay.id = "gate-overlay";
@@ -69,8 +89,7 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const hash = await sha256(input.value);
-      if (hash === PASS_HASH) {
+      if (await checkPass(input.value)) {
         sessionStorage.setItem(SESSION_KEY, "1");
         overlay.remove();
         const s = document.getElementById("gate-hide-style");

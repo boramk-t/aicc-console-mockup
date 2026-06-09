@@ -69,6 +69,24 @@ function rejectNudge() {
   document.getElementById('nudgeCard').style.display = 'none';
 }
 
+/* ===== 권한 안내 Modal (disabled 서비스) ===== */
+function openPermModal(serviceName) {
+  document.getElementById('permService').textContent = serviceName;
+  document.getElementById('permModal').classList.add('open');
+}
+function closePermModal(e) {
+  if (e.target === document.getElementById('permModal'))
+    document.getElementById('permModal').classList.remove('open');
+}
+function closePermModalDirect() {
+  document.getElementById('permModal').classList.remove('open');
+}
+function requestPerm() {
+  const svc = document.getElementById('permService').textContent;
+  document.getElementById('permModal').classList.remove('open');
+  showToast(`'${svc}' 사용 권한을 관리자에게 요청했습니다.`);
+}
+
 /* ===== Skeleton Loading ===== */
 function simulateSkeleton() {
   const targets = [...document.querySelectorAll('.bento-card, .pinned-card, .hero')];

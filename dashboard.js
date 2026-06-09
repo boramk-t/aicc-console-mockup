@@ -88,6 +88,76 @@ function tick() {
 }
 
 /* ===== 여정 흐름 렌더 ===== */
+/* ===== 예측 레인 (Measurement vs Predictive) ===== */
+let horizon = 10; // 예측 시점(분)
+const forecastMetrics = [
+  { key:'inflow', name:'전체 인입', unit:'건/분', base:()=>Object.values(stages).reduce((a,s)=>a+s.now,0), perMin:6.5, thr:2600 },
+  { key:'wait',   name:'상담 대기', unit:'명',    base:()=>stages.wait.now,  perMin:3.2, thr:80 },
+  { key:'ars',    name:'ARS 인입',  unit:'건/분', base:()=>Math.round(stages.enter.now*0.42), perMin:4.1, thr:180 },
+  { key:'callbot',name:'콜봇 부하',  unit:'%',     base:()=>stages.callbot.loadPct, perMin:1.6, thr:200 },
+];
+function forecastLevel(val, thr){ if(val>=thr) return 'crit'; if(val>=thr*0.85) return 'warn'; return 'normal'; }
+function renderForecast() {
+  const grid = document.getElementById('forecastGrid');
+  grid.innerHTML = forecastMetrics.map(m => {
+    const now = m.base();
+    const pred = Math.round(now + m.perMin * horizon);
+    const nowLv = forecastLevel(now, m.thr);
+    const predLv = forecastLevel(pred, m.thr);
+    const deltaPct = Math.round((pred-now)/Math.max(now,1)*100);
+    const willBreach = predLv==='crit' && nowLv!=='crit';
+    return `
+      <div class="fc-card ${predLv}">
+        <div class="fc-name">${m.name}</div>
+        <div class="fc-compare">
+          <div class="fc-col">
+            <div class="fc-tag now">실시간</div>
+            <div class="fc-val ${nowLv}">${now.toLocaleString()}<span class="fc-unit">${m.unit}</span></div>
+          </div>
+          <div class="fc-arrow">→</div>
+          <div class="fc-col">
+            <div class="fc-tag pred">🔮 +${horizon}분</div>
+            <div class="fc-val ${predLv}">${pred.toLocaleString()}<span class="fc-unit">${m.unit}</span></div>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <span class="fc-delta ${deltaPct>=0?'up':'down'}">${deltaPct>=0?'▲':'▼'} ${Math.abs(deltaPct)}%</span>
+          ${willBreach ? `<span class="fc-breach">⚠ ${horizon}분 뒤 임계(${m.thr.toLocaleString()}) 초과 예상</span>`
+            : `<span class="fc-ok">임계 ${m.thr.toLocaleString()} 이내</span>`}
+        </div>
+      </div>`;
+  }).join('');
+
+  const recos = [];
+  const waitNow = stages.wait.now, waitPred = Math.round(waitNow + 3.2*horizon);
+  if (waitPred >= 80) {
+    const need = Math.ceil((waitPred-60)/10);
+    recos.push(`🧑‍💼 <b>${horizon}분 뒤 상담 대기 ${waitPred}명 예상</b> (현재 ${waitNow}명) → 상담사 <b>${need}명</b> 추가 투입을 권장합니다.`);
+  }
+  const arsNow = Math.round(stages.enter.now*0.42), arsPred = Math.round(arsNow + 4.1*horizon);
+  if (arsPred >= 180) {
+    recos.push(`📞 <b>ARS 인입 증가 추세</b> — ${horizon}분 뒤 콜 적체로 상담 연결 지연이 예상됩니다. 콜봇 우회 안내·인력 사전 배치를 검토하세요.`);
+  }
+  if (stages.callbot.loadPct + 1.6*horizon >= 200) {
+    recos.push(`🤖 <b>콜봇 부하 상승 추세</b> — ${horizon}분 뒤 위험 수준 도달 가능. 특정 콜(요금조회) 집중 여부를 점검하세요.`);
+  }
+  document.getElementById('forecastReco').innerHTML = recos.length
+    ? `<div class="fc-reco-title">🔮 예측 기반 권장 조치</div>` + recos.map(r=>`<div class="fc-reco-item">${r}</div>`).join('')
+    : `<div class="fc-reco-ok">예측 범위 내 임계 초과가 예상되지 않습니다 ✅</div>`;
+}
+function initHorizonSeg() {
+  const seg = document.getElementById('horizonSeg');
+  seg.querySelectorAll('.seg-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      seg.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      horizon = parseInt(btn.dataset.h,10);
+      renderForecast();
+      showToast(`예측 시점을 +${horizon}분으로 변경했어요.`);
+    });
+  });
+}
+
 /* ===== 노드 상태 표시 통일 =====
    정상: ● 정상 / 부하: ▲ 부하 N% / 이슈: ⚠ {이슈명} 이슈 */
 function statusNormal(){ return `<div class="df-status normal"><span class="df-st-ico">●</span> 정상</div>`; }
@@ -333,9 +403,10 @@ function renderClock(){
 }
 
 /* ===== 갱신 ===== */
-function refresh(){ tick(); renderFlow(); renderStatus(); renderWatch(); renderClock(); }
+function refresh(){ tick(); renderFlow(); renderStatus(); renderForecast(); renderWatch(); renderClock(); }
 
 document.addEventListener('DOMContentLoaded', ()=>{
+  initHorizonSeg();
   refresh(); renderEnd(); renderQuality(); renderClock();
   setInterval(renderClock,1000);
   setInterval(refresh,4000);

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>U+AICC Console · AICC Funnel</title>
+  <title>U+AICC Console · AICC Journey</title>
   <link rel="stylesheet" href="funnel.css" />
   <script src="gate.js"></script>
 </head>
@@ -18,12 +18,13 @@
       </div>
       <span class="switcher-arrow">▾</span>
       <div class="switcher-dropdown">
-        <div class="switcher-item"><span class="status-dot green"></span> 상담 어드바이저 포털</div>
+        <div class="switcher-item" onclick="location.href='index.html'"><span class="status-dot green"></span> AI 상담어드바이저포털</div>
         <div class="switcher-item"><span class="status-dot green"></span> AI AutoQA</div>
-        <div class="switcher-item"><span class="status-dot green"></span> AI VoiceToAction</div>
+        <div class="switcher-item"><span class="status-dot green"></span> AI V2A</div>
         <div class="switcher-item"><span class="status-dot green"></span> AI 상담봇</div>
         <div class="switcher-item"><span class="status-dot green"></span> 통합 운영관리포털</div>
-        <div class="switcher-item active"><span class="status-dot magenta"></span> AICC Funnel</div>
+        <div class="switcher-item active"><span class="status-dot magenta"></span> AICC Journey</div>
+        <div class="switcher-item" onclick="location.href='aiccdashboard.html'"><span class="status-dot green"></span> AICC Watchtower</div>
       </div>
     </div>
   </div>
@@ -38,134 +39,117 @@
 
 <main class="main-content">
 
-  <!-- 브레드크럼 (F1-1) -->
+  <!-- 브레드크럼 -->
   <nav class="breadcrumb">
     <span class="bc-home" onclick="location.href='index.html'">U+AICC Console</span>
     <span class="bc-sep">›</span>
-    <span class="bc-current">AICC Funnel</span>
+    <span class="bc-current">AICC Journey</span>
   </nav>
 
-  <!-- 페이지 헤더 (F1-2) -->
+  <!-- 페이지 헤더 -->
   <header class="page-header">
     <div class="page-title-wrap">
-      <h1 class="page-title">고객 여정 분석 (AICC Funnel)</h1>
-      <p class="page-sub">AICC 전체 서비스를 관통하는 상담 고객 여정을 분석합니다.</p>
+      <h1 class="page-title">고객 여정 분석 (AICC Journey)</h1>
+      <p class="page-sub">진입 채널(보이는 ARS / 음성 ARS / 콜봇)별로 이용중 종료·셀프 처리·상담사 연결 흐름을 분석합니다.</p>
     </div>
     <div class="page-meta">
-      <span class="update-time">🕒 마지막 갱신 2025-05-29 09:00</span>
+      <span class="update-time">어제(06/08) 기준 · 일배치</span>
     </div>
   </header>
 
-  <!-- 필터 바 (F1-3) -->
-  <section class="filter-bar">
-    <div class="filter-group">
-      <label class="filter-label">기간</label>
-      <div class="seg-control" id="periodSeg">
-        <button class="seg-btn" data-period="일">일</button>
-        <button class="seg-btn active" data-period="주">주</button>
-        <button class="seg-btn" data-period="월">월</button>
-      </div>
-    </div>
-    <div class="filter-group">
-      <label class="filter-label">진입 채널</label>
-      <select class="filter-select" id="fEntry"><option>전체</option><option>ARS</option><option>챗봇 직링크</option><option>상담사 직통</option><option>채팅상담 직링크</option></select>
-    </div>
-    <div class="filter-group">
-      <label class="filter-label">채널</label>
-      <select class="filter-select" id="fChannel"><option>전체</option><option>홈</option><option>모바일</option></select>
-    </div>
-    <div class="filter-group">
-      <label class="filter-label">상담 유형</label>
-      <select class="filter-select" id="fType"><option>전체</option><option>CS 일반</option><option>로밍</option><option>기술</option></select>
-    </div>
-    <div class="filter-group">
-      <label class="filter-label">팀/센터</label>
-      <select class="filter-select" id="fTeam"><option>전체</option><option>강남센터</option><option>분당센터</option></select>
-    </div>
-    <button class="filter-apply" onclick="applyFilter()">적용</button>
+  <!-- KPI 행 -->
+  <section class="kpi-row">
+    <div class="kpi-card"><div class="kpi-label">전체 인입</div><div class="kpi-value">12,700<span class="kpi-unit">건</span></div><div class="kpi-trend down">전주 동요일 대비 ▲ 2.1%</div></div>
+    <div class="kpi-card alert"><div class="kpi-label">셀프 처리율</div><div class="kpi-value">64.2<span class="kpi-unit">%</span></div><div class="kpi-trend down bad">▼ 3.2%p</div></div>
+    <div class="kpi-card"><div class="kpi-label">이용중 종료율</div><div class="kpi-value">18.9<span class="kpi-unit">%</span></div><div class="kpi-trend up bad">▲ 1.4%p</div></div>
+    <div class="kpi-card"><div class="kpi-label">상담사 연결률</div><div class="kpi-value">48.0<span class="kpi-unit">%</span></div><div class="kpi-trend up bad">▲ 2.6%p</div></div>
   </section>
 
-  <!-- 핵심 지표 KPI (F1-4) -->
-  <section class="kpi-row" id="kpiRow"><!-- JS 렌더 --></section>
-
-  <!-- 고객 여정 흐름 (Journey Flow) — 단일 통합 시각화 -->
+  <!-- 채널별 Journey Flow -->
   <section class="panel journey-panel">
     <div class="panel-header">
-      <h2 class="panel-title">고객 여정 흐름 (Journey Flow)</h2>
-      <span class="panel-hint">진입 → 봇 → 연결 → 상담 → 종료 · 메인 라인은 진행, 아래 가지는 이탈 · 노드 클릭 시 상세</span>
+      <h2 class="panel-title">진입 채널별 여정 흐름</h2>
+      <span class="panel-hint">3개 진입 채널 → 상담사 연결 합류</span>
     </div>
-    <div class="journey-flow" id="journeyFlow"><!-- JS 렌더 --></div>
-    <div class="journey-legend">
-      <span class="jl-item"><i class="jl-dot flow"></i> 진행 흐름</span>
-      <span class="jl-item"><i class="jl-dot resolved"></i> 해결 종료</span>
-      <span class="jl-item"><i class="jl-dot drop"></i> 이탈</span>
-      <span class="jl-item"><i class="jl-dot abandon"></i> 대기중 이탈</span>
+    <div class="cj">
+      <div class="cj-lanes">
+        <!-- ① 보이는 ARS -->
+        <div class="cj-lane">
+          <div class="cj-node">
+            <div class="cj-node-h"><span class="cj-name">보이는 ARS</span><span class="cj-val">5,200</span></div>
+            <div class="cj-exits">
+              <span class="cj-exit end">이용중 종료 1,100</span>
+              <span class="cj-exit self">셀프 처리 1,800</span>
+            </div>
+          </div>
+          <span class="cj-arrow">→</span>
+          <div class="cj-mid"><span class="cj-line"></span></div>
+          <span class="cj-arrow">→</span>
+        </div>
+        <!-- ② 음성 ARS -->
+        <div class="cj-lane">
+          <div class="cj-node">
+            <div class="cj-node-h"><span class="cj-name">음성 ARS</span><span class="cj-val">4,800</span></div>
+            <div class="cj-exits">
+              <span class="cj-exit end">이용중 종료 900</span>
+              <span class="cj-exit self">셀프 처리 1,500</span>
+            </div>
+          </div>
+          <span class="cj-arrow">→</span>
+          <div class="cj-mid"><span class="cj-line"></span></div>
+          <span class="cj-arrow">→</span>
+        </div>
+        <!-- ③ 콜봇 -->
+        <div class="cj-lane">
+          <div class="cj-node">
+            <div class="cj-node-h"><span class="cj-name">콜봇</span><span class="cj-val">2,700</span></div>
+            <div class="cj-exits">
+              <span class="cj-exit end">이용중 종료 400</span>
+              <span class="cj-exit self">셀프 처리 900</span>
+            </div>
+          </div>
+          <span class="cj-arrow">→</span>
+          <div class="cj-mid"><span class="cj-line"></span></div>
+          <span class="cj-arrow">→</span>
+        </div>
+      </div>
+      <div class="cj-merge">
+        <div class="cj-node agent">
+          <div class="cj-name">상담사 연결</div>
+          <div class="cj-val big">6,100</div>
+          <div class="cj-merge-sub">셀프 미해결 합류</div>
+        </div>
+      </div>
+    </div>
+    <div class="cj-legend">
+      <span class="cjl-item"><i class="cjl-dot end"></i> 이용중 종료</span>
+      <span class="cjl-item"><i class="cjl-dot self"></i> 셀프 처리</span>
+      <span class="cjl-item"><i class="cjl-dot agent"></i> 상담사 연결(합류)</span>
     </div>
   </section>
 
-  <!-- 본문 2단: AI 인사이트(메인) + 분석 차트(서브) -->
-  <div class="content-grid">
-
-    <!-- AI 인사이트 — 핵심, 메인 영역 -->
-    <section class="panel insight-panel">
-      <div class="panel-header">
-        <h2 class="panel-title">🤖 AI 인사이트</h2>
-        <span class="insight-count">중요 3건 · 신규 1건</span>
+  <!-- AI 인사이트 -->
+  <section class="panel insight-panel">
+    <div class="panel-header">
+      <h2 class="panel-title">🤖 AI 인사이트</h2>
+      <span class="insight-count">규칙 기반 · 참고</span>
+    </div>
+    <div class="insight-card sev-mid">
+      <div class="ic-fact"><strong>콜봇 셀프 처리율(33%)이 ARS 대비 낮아</strong> 상담사 연결로 넘어가는 비중이 큽니다.</div>
+      <div class="ic-body">
+        <div class="ic-row"><span class="ic-key cause">왜 그럴까</span><span class="ic-val">콜봇 시나리오 미스매치·인텐트 미학습 가능성 <span class="ic-confidence">(신뢰도: 중간)</span></span></div>
+        <div class="ic-row"><span class="ic-key action">해보세요</span><span class="ic-val">콜봇 시나리오·인텐트 학습데이터 점검을 권장합니다</span></div>
       </div>
-      <div class="insight-list" id="insightList"><!-- JS 렌더 --></div>
-    </section>
-
-    <!-- 분석 차트 (서브) -->
-    <aside class="side-charts">
-      <!-- 추세 -->
-      <section class="panel">
-        <div class="panel-header">
-          <h2 class="panel-title">대기 이탈률 추세</h2>
-          <div class="seg-control small">
-            <button class="seg-btn active">주</button>
-            <button class="seg-btn">월</button>
-          </div>
-        </div>
-        <div class="trend-chart" id="trendChart"></div>
-      </section>
-
-      <!-- 진입 채널 믹스 -->
-      <section class="panel">
-        <div class="panel-header">
-          <h2 class="panel-title">진입 채널 믹스</h2>
-        </div>
-        <div class="mix-chart" id="channelMix"></div>
-      </section>
-
-      <!-- 채널 × 상담유형 -->
-      <section class="panel">
-        <div class="panel-header">
-          <h2 class="panel-title">채널 × 상담유형</h2>
-        </div>
-        <div class="matrix-chart" id="typeMatrix"></div>
-        <div class="matrix-legend">
-          <span class="ml-item"><i class="ml-dot cs"></i> CS 일반</span>
-          <span class="ml-item"><i class="ml-dot roaming"></i> 로밍</span>
-          <span class="ml-item"><i class="ml-dot tech"></i> 기술</span>
-        </div>
-      </section>
-    </aside>
-  </div>
+      <div class="ic-feedback"><span class="ic-fb-label">이 분석이 도움이 됐나요?</span><button class="ic-fb-icon">👍</button><button class="ic-fb-icon">👎</button></div>
+    </div>
+  </section>
 
 </main>
 
-<!-- 인사이트 상세 드로어 -->
-<div class="drawer-overlay" id="drawer" onclick="closeDrawer(event)">
-  <div class="drawer">
-    <div class="drawer-header">
-      <h3 id="drawerTitle">인사이트 상세</h3>
-      <button class="drawer-close" onclick="closeDrawerDirect()">✕</button>
-    </div>
-    <div class="drawer-body" id="drawerBody"></div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
-<script src="funnel.js"></script>
+<script>
+  function toggleSwitcher(){ document.getElementById('switcherBtn').classList.toggle('open'); }
+  document.addEventListener('click', (e)=>{ const s=document.getElementById('switcherBtn'); if(s && !s.contains(e.target)) s.classList.remove('open'); });
+</script>
 </body>
 </html>
