@@ -3,51 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>U+AICC Console</title>
+  <title>AICC 통합 포털</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- 이상 징후 CRITICAL 배너 -->
-<div class="anomaly-banner" id="anomalyBanner">
-  <span class="anomaly-icon">⚠️</span>
-  <span class="anomaly-text"><strong>AI AutoQA</strong> 이상 감지 — 평균 품질 점수 평소 대비 <strong>20.6% 하락</strong></span>
-  <a href="#" class="anomaly-link">상세 보기</a>
-  <button class="anomaly-close" onclick="document.getElementById('anomalyBanner').style.display='none'">✕</button>
-</div>
-
-<!-- GNB -->
+<!-- GNB (고정) -->
 <nav class="gnb">
   <div class="gnb-left">
     <div class="service-switcher" id="switcherBtn" onclick="toggleSwitcher()">
       <div class="gnb-logo">
-        <span class="logo-uplus">U+</span><span class="logo-aicc">AICC Console</span>
+        <span class="logo-mark">A</span><span class="logo-aicc">AICC 통합 포털</span>
       </div>
-      <span class="switcher-arrow">▾</span>
+      <span class="switcher-arrow">⇅</span>
       <div class="switcher-dropdown">
         <div class="switcher-item active"><span class="status-dot green"></span> AI 상담어드바이저포털</div>
-        <div class="switcher-item"><span class="status-dot green"></span> AI AutoQA <span class="switcher-badge warning">⚠</span></div>
+        <div class="switcher-item"><span class="status-dot green"></span> AI AutoQA</div>
         <div class="switcher-item"><span class="status-dot green"></span> AI V2A</div>
         <div class="switcher-item"><span class="status-dot green"></span> AI 상담봇</div>
         <div class="switcher-item"><span class="status-dot green"></span> 통합 운영관리포털</div>
-        <div class="switcher-item" onclick="location.href='funnel.html'"><span class="status-dot green"></span> AICC Journey</div>
-        <div class="switcher-item" onclick="location.href='aiccdashboard.html'"><span class="status-dot green"></span> AICC Watchtower</div>
       </div>
     </div>
   </div>
   <div class="gnb-right">
-    <div class="gnb-icon-btn" title="알림">
+    <div class="gnb-icon-btn" title="알림" onclick="showToast('알림 게시판으로 이동합니다.')">
       <span class="icon">🔔</span>
-      <span class="pulse-badge">1</span>
+      <span class="pulse-badge">9</span>
     </div>
     <div class="gnb-profile" onclick="toggleProfile()">
       <div class="avatar">김</div>
-      <span class="profile-name">김유플</span>
-      <span class="profile-arrow">▾</span>
+      <div class="profile-text">
+        <span class="profile-name">김지원</span>
+        <span class="profile-role-sm">책임 매니저</span>
+      </div>
+      <span class="profile-arrow">⇅</span>
       <div class="profile-dropdown">
         <div class="profile-info">
-          <div class="profile-name-full">김유플</div>
-          <div class="profile-role">센터장 · 강남 고객센터</div>
+          <div class="profile-name-full">김지원</div>
+          <div class="profile-role">책임매니저 · 모바일1센터 CS1팀</div>
         </div>
         <hr class="dropdown-divider"/>
         <div class="dropdown-item">설정</div>
@@ -60,188 +53,158 @@
 <!-- 메인 콘텐츠 -->
 <main class="main-content">
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-left">
-      <h1 class="hero-greeting">안녕하세요, 김유플님 👋</h1>
-      <div class="hero-meta">
-        <span class="role-badge">센터장</span>
-        <span class="center-name">강남 고객센터</span>
+  <!-- Hero 카드 + 통합 알림 (상단 공통 행) -->
+  <div class="hero-row">
+    <section class="hero-card">
+      <div class="hero-card-main">
+        <h1 class="hero-greeting">안녕하세요, 김지원님 👋</h1>
+        <p class="hero-sub">책임매니저 · 모바일1센터 CS1팀</p>
       </div>
-      <!-- 긴급 알림 배너 (조건부) -->
-      <div class="hero-critical" onclick="showToast('AI AutoQA 긴급 알림을 확인하세요.')">
-        🔴 <strong>AI AutoQA</strong> 긴급 알림 — 품질 점수 이상 감지 <span class="hero-critical-go">바로가기 ›</span>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-stat">
-        <div class="stat-label">오늘 상담</div>
-        <div class="stat-value">1,284건</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-label">평균 품질</div>
-        <div class="stat-value warning-text">62.3점</div>
-      </div>
-    </div>
-  </section>
+      <div class="hero-deco"></div>
+    </section>
 
-  <!-- 즐겨찾기 (AI 추천 5개 자동 표시) -->
-  <section class="pinned-section">
-    <div class="section-header">
-      <span class="section-title">⭐ 즐겨찾기 <span class="ai-chip">AI 추천</span></span>
-      <button class="btn-setting" onclick="openFavModal()">설정</button>
-    </div>
-    <div class="pinned-grid" id="pinnedGrid">
-      <div class="pinned-card" onclick="showToast('상담 어드바이저 › 대시보드로 이동합니다.')">
-        <span class="pinned-icon">🎧</span>
-        <div class="pinned-info">
-          <div class="pinned-service">상담 어드바이저</div>
-          <div class="pinned-menu">대시보드</div>
+    <!-- 통합 알림 영역 (이상알림 + 서비스 알림) -->
+    <aside class="notif-panel">
+      <div class="notif-head">
+        <span class="notif-title">🔔 알림</span>
+        <span class="notif-more" onclick="showToast('알림 게시판으로 이동합니다.')">전체 보기 ›</span>
+      </div>
+      <div class="notif-list">
+        <div class="notif-item alert" onclick="showToast('알림 게시판으로 이동합니다.')">
+          <span class="ni-tag alert">Alert</span>
+          <span class="ni-text"><strong>AI AutoQA</strong> 이의제기 건수가 평소 대비 +34% 급증</span>
+          <span class="ni-time">방금</span>
+        </div>
+        <div class="notif-item alert" onclick="showToast('알림 게시판으로 이동합니다.')">
+          <span class="ni-tag alert">Alert</span>
+          <span class="ni-text"><strong>AI V2A</strong> 부정 감성 비율이 평소 대비 +18% 상승</span>
+          <span class="ni-time">12분 전</span>
+        </div>
+        <div class="notif-item" onclick="showToast('알림 게시판으로 이동합니다.')">
+          <span class="ni-tag">알림</span>
+          <span class="ni-text">내 담당 평가 대기 콜 32건 확인 요청</span>
+          <span class="ni-time">3분 전</span>
         </div>
       </div>
-      <div class="pinned-card" onclick="showToast('AI AutoQA › 오늘 평가 현황으로 이동합니다.')">
-        <span class="pinned-icon">✅</span>
-        <div class="pinned-info">
-          <div class="pinned-service">AI AutoQA</div>
-          <div class="pinned-menu">오늘 평가 현황</div>
-        </div>
-      </div>
-      <div class="pinned-card" onclick="showToast('AI V2A › 주간 리포트로 이동합니다.')">
-        <span class="pinned-icon">📊</span>
-        <div class="pinned-info">
-          <div class="pinned-service">AI V2A</div>
-          <div class="pinned-menu">주간 리포트</div>
-        </div>
-      </div>
-      <div class="pinned-card" onclick="showToast('상담 어드바이저 › 상담 목록으로 이동합니다.')">
-        <span class="pinned-icon">📋</span>
-        <div class="pinned-info">
-          <div class="pinned-service">상담 어드바이저</div>
-          <div class="pinned-menu">상담 목록</div>
-        </div>
-      </div>
-      <div class="pinned-card" onclick="showToast('통합 운영관리포털 › 사용자 관리로 이동합니다.')">
-        <span class="pinned-icon">⚙️</span>
-        <div class="pinned-info">
-          <div class="pinned-service">운영관리포털</div>
-          <div class="pinned-menu">사용자 관리</div>
-        </div>
-      </div>
-    </div>
-    <!-- AI 추천 넛지 -->
-    <div class="nudge-card" id="nudgeCard">
-      <span class="nudge-icon">💡</span>
-      <span class="nudge-text">AI가 사용 패턴을 분석해 <strong>즐겨찾기</strong>를 자동으로 추천했어요. 직접 변경하려면 설정을 눌러주세요.</span>
-      <button class="btn-nudge-accept" onclick="rejectNudge()">확인</button>
-    </div>
-  </section>
+      <button class="notif-expand" onclick="showToast('알림 게시판으로 이동합니다.')">펼치기 · 전체 9건 보기</button>
+    </aside>
+  </div>
 
-  <!-- Funnel 요약 (운영 관리자 이상 노출) -->
-  <section class="funnel-section">
-    <div class="section-header">
-      <span class="section-title">📊 고객 여정 <span class="ai-chip">운영 관리자</span></span>
-      <span class="funnel-updated">어제(06/08) 기준 · 일배치</span>
+  <!-- 고객 여정 최소 신호 (운영 관리자 전용 슬림 스트립) -->
+  <section class="digest-strip">
+    <div class="digest-head">
+      <span class="section-title">고객 여정 <span class="ai-chip">운영 관리자</span></span>
+      <span class="funnel-updated">어제(06/09) 기준 · 일배치</span>
     </div>
     <div class="digest-card" onclick="location.href='funnel.html'">
       <div class="digest-left">
-        <div class="dg-label">셀프 처리율 <span class="dg-sub">전주 동요일 대비</span></div>
-        <div class="dg-value">64.2<small>%</small> <span class="dg-trend down">▼ 3.2%p</span> <span class="dg-flag warn">⚠ 주의</span></div>
-        <div class="digest-insight"><span class="fi-icon">🤖</span> <span>셀프 처리가 줄고 상담사 연결이 늘었어요. 콜봇 시나리오 점검을 권장합니다.</span> <span class="fi-label">규칙 기반 · 참고</span></div>
+        <div class="dg-label">상담사 연결률 <span class="dg-sub">전주 동요일 대비</span></div>
+        <div class="dg-value">48.0<small>%</small> <span class="dg-trend up bad">▲ 2.6%p</span></div>
+        <div class="digest-insight"><span class="dg-flag warn">주의</span> <span>셀프 처리가 줄고 상담사 연결이 늘었어요.</span></div>
       </div>
-      <span class="digest-link">여정 분석 보기 ›</span>
+      <span class="digest-link" style="text-decoration: underline;">여정 분석 보기 ›</span>
     </div>
   </section>
 
-  <!-- Bento Grid -->
+  <!-- 즐겨찾기 -->
+  <section class="pinned-section">
+    <div class="section-header">
+      <span class="section-title">즐겨찾기</span>
+      <button class="btn-setting" onclick="openFavModal()">⇅ 설정</button>
+    </div>
+    <div class="pinned-grid" id="pinnedGrid">
+      <div class="pinned-card" onclick="location.href='advisor.html'">
+        <span class="pinned-icon">🎧</span>
+        <div class="pinned-info"><div class="pinned-service">AI 상담어드바이저포털</div><div class="pinned-menu">실시간 상담</div></div>
+      </div>
+      <div class="pinned-card" onclick="showToast('AI AutoQA › 성과 통계로 이동합니다.')">
+        <span class="pinned-icon">✅</span>
+        <div class="pinned-info"><div class="pinned-service">AI AutoQA</div><div class="pinned-menu">성과 통계</div></div>
+      </div>
+      <div class="pinned-card" onclick="showToast('AI V2A › 키워드 분석으로 이동합니다.')">
+        <span class="pinned-icon">📊</span>
+        <div class="pinned-info"><div class="pinned-service">AI V2A</div><div class="pinned-menu">키워드 분석</div></div>
+      </div>
+      <div class="pinned-card empty" onclick="openFavModal()"><span class="pinned-add">+</span><span class="empty-text">즐겨찾기 추가</span></div>
+      <div class="pinned-card empty" onclick="openFavModal()"><span class="pinned-add">+</span><span class="empty-text">즐겨찾기 추가</span></div>
+      <div class="reco-card">
+        <div class="reco-head"><span class="reco-spark">✨</span> AI 추천</div>
+        <div class="reco-text">최근 평가 To-Do를 자주 이용했어요.</div>
+        <div class="reco-btns"><button class="reco-cancel" onclick="dismissReco(this)">취소</button><button class="reco-add" onclick="addReco(this,'평가 To-Do')">추가 하기</button></div>
+      </div>
+      <div class="reco-card">
+        <div class="reco-head"><span class="reco-spark">✨</span> AI 추천</div>
+        <div class="reco-text">이번 주 FAQ 관리에 5회 진입했어요.</div>
+        <div class="reco-btns"><button class="reco-cancel" onclick="dismissReco(this)">취소</button><button class="reco-add" onclick="addReco(this,'FAQ 관리')">추가 하기</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 전체 서비스 -->
   <section class="bento-section">
     <div class="section-header">
-      <span class="section-title">🗂 전체 서비스</span>
+      <span class="section-title">전체 서비스</span>
+      <span class="drag-hint">⠿ 드래그 하여 순서 변경</span>
     </div>
     <div class="bento-grid">
 
-      <!-- Large: AI 상담어드바이저포털 (빈도 1위) -->
-      <div class="bento-card large active card-advisor tooltip-below" onclick="showToast('AI 상담어드바이저포털로 이동합니다.')">
+      <!-- Large: AI 상담어드바이저포털 -->
+      <div class="bento-card large active card-advisor" onclick="location.href='advisor.html'">
         <div class="card-header">
-          <div class="card-icon-wrap">
-            <div class="card-icon-bg">🎧</div>
-          </div>
-          <div class="card-status">
-            <span class="status-dot green"></span>
-            <span class="status-text">운영중</span>
-          </div>
+          <div class="card-icon-wrap"><div class="card-icon-bg">🎧</div></div>
+          <span class="card-grip">⠿</span>
         </div>
         <div class="card-body">
           <div class="card-title">AI 상담어드바이저포털</div>
-          <div class="card-desc">실시간 상담 운영 및 상담사 업무 관리. 상담 현황과 품질 모니터링을 한눈에 확인하세요.</div>
+          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영 중</span></div>
+          <span class="ai-label">✨ AI 추천</span>
+          <div class="card-desc">실시간 상담 가이드와 스크립트를 추천하는 상담사 어시스턴트</div>
           <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-label">오늘 상담</div>
-              <div class="card-stat-value">1,284</div>
-            </div>
-            <div class="card-stat-item">
-              <div class="card-stat-label">처리율</div>
-              <div class="card-stat-value">94.2%</div>
-            </div>
-            <div class="card-stat-item">
-              <div class="card-stat-label">평균 응대</div>
-              <div class="card-stat-value">3분 12초</div>
-            </div>
+            <div class="card-stat-item"><div class="card-stat-value">1,284</div><div class="card-stat-label">오늘 상담</div></div>
+            <div class="card-stat-item"><div class="card-stat-value">92.4%</div><div class="card-stat-label">AI 가이드 적중률</div></div>
+            <div class="card-stat-item"><div class="card-stat-value">187명</div><div class="card-stat-label">실시간 접속 상담사</div></div>
           </div>
         </div>
-        <div class="card-footer">
-          <span class="ai-label">🤖 AI 추천 — 자주 사용하는 서비스</span>
-        </div>
-        <div class="card-tooltip"><strong>AI 상담어드바이저포털</strong><br/>오늘 상담 1,284건 처리 중<br/>이상 징후 없음</div>
+        <div class="card-footer"><span class="card-go">바로가기 →</span></div>
       </div>
 
-      <!-- Medium: AI AutoQA (이상 징후) -->
-      <div class="bento-card medium active card-autoqa warning-card tooltip-below" onclick="showToast('AI AutoQA로 이동합니다.')">
+      <!-- Medium: AI AutoQA -->
+      <div class="bento-card medium active card-autoqa" onclick="showToast('AI AutoQA로 이동합니다.')">
         <div class="card-header">
-          <div class="card-icon-wrap">
-            <div class="card-icon-bg">✅</div>
-          </div>
-          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영중</span></div>
+          <div class="card-icon-wrap"><div class="card-icon-bg">✅</div></div>
+          <span class="card-grip">⠿</span>
         </div>
         <div class="card-body">
           <div class="card-title">AI AutoQA</div>
-          <div class="card-desc">AI 기반 상담 품질 자동 평가</div>
+          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영 중</span></div>
+          <div class="card-desc">AI 자동 평가·코칭과 성과 통계로 상담 품질을 관리</div>
         </div>
-        <div class="card-footer">
-          <span class="anomaly-badge">⚠️ 이상 징후 감지</span>
-        </div>
-        <div class="card-tooltip"><strong>AI AutoQA</strong><br/>⚠️ 평균 품질 점수 20.6% 하락<br/>이상 징후 감지됨</div>
       </div>
 
       <!-- Medium: AI V2A -->
-      <div class="bento-card medium active card-insight tooltip-below" onclick="showToast('AI V2A로 이동합니다.')">
+      <div class="bento-card medium active card-insight" onclick="showToast('AI V2A로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap"><div class="card-icon-bg">📊</div></div>
-          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영중</span></div>
+          <span class="card-grip">⠿</span>
         </div>
         <div class="card-body">
           <div class="card-title">AI V2A</div>
-          <div class="card-desc">상담 데이터 분석 및 리포팅</div>
+          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영 중</span></div>
+          <div class="card-desc">대화 키워드·감성·이슈 트렌드 분석 및 리포팅</div>
         </div>
-        <div class="card-footer">
-          <span class="ai-label">🤖 월요일 오전 추천</span>
-        </div>
-        <div class="card-tooltip"><strong>AI V2A</strong><br/>주간 리포트 생성 완료<br/>이상 징후 없음</div>
       </div>
 
       <!-- Medium: AI 상담봇 -->
-      <div class="bento-card medium active card-bot tooltip-below" onclick="showToast('AI 상담봇으로 이동합니다.')">
+      <div class="bento-card medium active card-bot" onclick="showToast('AI 상담봇으로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap"><div class="card-icon-bg">🤖</div></div>
-          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영중</span></div>
+          <span class="card-grip">⠿</span>
         </div>
         <div class="card-body">
           <div class="card-title">AI 상담봇</div>
+          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영 중</span></div>
           <div class="card-desc">콜봇·챗봇 시나리오 관리 및 운영</div>
         </div>
-        <div class="card-footer">
-          <span class="ai-label">🤖 최근 사용</span>
-        </div>
-        <div class="card-tooltip"><strong>AI 상담봇</strong><br/>시나리오 3건 수정 대기<br/>이상 징후 없음</div>
       </div>
 
       <!-- Medium: ARS 서비스 (권한 없음 · disabled) -->
@@ -249,27 +212,23 @@
         <span class="lock-overlay">🔒</span>
         <div class="card-header">
           <div class="card-icon-wrap"><div class="card-icon-bg">📞</div></div>
-          <div class="card-status"><span class="status-dot gray"></span><span class="status-text">권한 없음</span></div>
         </div>
         <div class="card-body">
           <div class="card-title">ARS 서비스</div>
+          <div class="card-status"><span class="status-dot gray"></span><span class="status-text">권한 없음</span></div>
           <div class="card-desc">보이는 ARS·음성 ARS 운영 현황</div>
-        </div>
-        <div class="card-footer">
-          <span class="ai-label disabled-label">접근 권한 필요</span>
         </div>
       </div>
 
-      <!-- Small: 통합 운영관리포털 (가장 작게) -->
-      <div class="bento-card small active card-ops tooltip-below" onclick="showToast('통합 운영관리포털로 이동합니다.')">
+      <!-- Small: 통합 운영관리포털 -->
+      <div class="bento-card small active card-ops" onclick="showToast('통합 운영관리포털로 이동합니다.')">
         <div class="card-header">
           <div class="card-icon-wrap"><div class="card-icon-bg">⚙️</div></div>
-          <div class="card-status"><span class="status-dot green"></span></div>
         </div>
         <div class="card-body">
           <div class="card-title">통합 운영관리포털</div>
+          <div class="card-status"><span class="status-dot green"></span><span class="status-text">운영 중</span></div>
         </div>
-        <div class="card-tooltip"><strong>통합 운영관리포털</strong><br/>권한 승인 대기 1건</div>
       </div>
 
     </div>
@@ -280,63 +239,32 @@
 <div class="modal-overlay" id="favModal" onclick="closeFavModal(event)">
   <div class="modal">
     <div class="modal-header">
-      <h2 class="modal-title">⭐ 즐겨찾기 설정</h2>
-      <button class="modal-close" onclick="closeFavModalDirect()">✕</button>
+      <h2 class="modal-title">즐겨찾기 설정</h2>
     </div>
-    <p class="modal-desc">자주 사용하는 서비스와 메뉴를 최대 5개 선택하세요. AI가 사용 패턴을 분석해 자동 추천도 제공합니다.</p>
-    <div class="modal-list">
-      <div class="modal-service-item">
-        <label class="modal-checkbox-label">
-          <input type="checkbox" checked onchange="updateFavCount()"/> 🎧 AI 상담어드바이저포털
-        </label>
-        <select class="modal-menu-select">
-          <option>대시보드</option><option>상담 목록</option><option>모니터링</option>
-        </select>
+    <p class="modal-desc">자주 쓰는 서비스 메뉴를 화면에 고정합니다. <span id="favCount">(2/5)</span></p>
+    <div class="fav-slots" id="favSlots">
+      <div class="fav-slot">
+        <span class="fav-num">1</span>
+        <select class="fav-select"><option>AI 상담어드바이저포털</option><option>AI AutoQA</option><option>AI V2A</option><option>AI 상담봇</option><option>통합 운영관리포털</option></select>
+        <select class="fav-select"><option>실시간 상담</option><option>대시보드</option><option>모니터링</option></select>
+        <button class="fav-del" onclick="removeFavSlot(this)">🗑</button>
       </div>
-      <div class="modal-service-item">
-        <label class="modal-checkbox-label">
-          <input type="checkbox" checked onchange="updateFavCount()"/> ✅ AI AutoQA
-        </label>
-        <select class="modal-menu-select">
-          <option>오늘 평가 현황</option><option>품질 리포트</option><option>평가 기준 관리</option>
-        </select>
-      </div>
-      <div class="modal-service-item">
-        <label class="modal-checkbox-label">
-          <input type="checkbox" checked onchange="updateFavCount()"/> 📊 AI V2A
-        </label>
-        <select class="modal-menu-select">
-          <option>주간 리포트</option><option>월간 리포트</option><option>실시간 현황</option>
-        </select>
-      </div>
-      <div class="modal-service-item">
-        <label class="modal-checkbox-label">
-          <input type="checkbox" checked onchange="updateFavCount()"/> 📋 상담 어드바이저 › 상담 목록
-        </label>
-        <select class="modal-menu-select">
-          <option>상담 목록</option><option>오늘 상담</option>
-        </select>
-      </div>
-      <div class="modal-service-item">
-        <label class="modal-checkbox-label">
-          <input type="checkbox" checked onchange="updateFavCount()"/> ⚙️ 통합 운영관리포털
-        </label>
-        <select class="modal-menu-select">
-          <option>사용자 관리</option><option>권한 관리</option>
-        </select>
+      <div class="fav-slot">
+        <span class="fav-num">2</span>
+        <select class="fav-select"><option>통합 운영관리포털</option><option>AI 상담어드바이저포털</option><option>AI AutoQA</option><option>AI V2A</option><option>AI 상담봇</option></select>
+        <select class="fav-select placeholder"><option>메뉴 선택</option><option>주간 리포트</option><option>월간 리포트</option></select>
+        <button class="fav-del" onclick="removeFavSlot(this)">🗑</button>
       </div>
     </div>
+    <button class="fav-add-btn" onclick="addFavSlot()">+ 즐겨찾기 추가</button>
     <div class="modal-footer">
-      <span class="fav-count" id="favCount">5 / 5 선택됨</span>
-      <div class="modal-btns">
-        <button class="btn-cancel" onclick="closeFavModalDirect()">취소</button>
-        <button class="btn-save" onclick="saveFav()">저장</button>
-      </div>
+      <button class="btn-cancel" onclick="closeFavModalDirect()">취소</button>
+      <button class="btn-save" onclick="saveFav()">배정</button>
     </div>
   </div>
 </div>
 
-<!-- 권한 안내 Modal (disabled 서비스 클릭 시) -->
+<!-- 권한 안내 Modal -->
 <div class="modal-overlay" id="permModal" onclick="closePermModal(event)">
   <div class="modal perm-modal">
     <div class="perm-icon">🔒</div>
