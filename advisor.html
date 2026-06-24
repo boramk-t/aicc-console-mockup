@@ -1,0 +1,721 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 상담어드바이저포털 · 상담 어드바이저</title>
+  <link rel="stylesheet" href="advisor.css" />
+</head>
+<body>
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div class="sb-brand" onclick="location.href='home.html'">
+        <div class="brand-logo"><span>A</span></div>
+        <div class="brand-meta"><span class="brand-name">상담 어드바이저</span></div>
+      </div>
+      <button class="sb-collapse" title="사이드바 접기" onclick="toggleSidebar()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+      </button>
+    </div>
+
+    <div class="sb-content">
+      <div class="sb-group">
+        <div class="sb-group-label">실시간 업무</div>
+        <nav class="sb-menu">
+          <a class="sb-item active" href="#">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></span>
+            실시간 상담
+          </a>
+        </nav>
+      </div>
+
+      <div class="sb-group">
+        <div class="sb-group-label">분석 · 통계</div>
+        <nav class="sb-menu">
+          <a class="sb-item" href="#">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="9" width="3" height="9"/><rect x="14" y="5" width="3" height="13"/></svg></span>
+            상담 성과
+          </a>
+          <a class="sb-item" href="#">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+            목표 관리
+          </a>
+          <a class="sb-item" href="funnel.html">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 18 2-3 2 2 3-4"/></svg></span>
+            상담 리포트
+          </a>
+        </nav>
+      </div>
+
+      <div class="sb-group">
+        <div class="sb-group-label">지식</div>
+        <nav class="sb-menu">
+          <a class="sb-item" href="#">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg></span>
+            지식 검색
+          </a>
+          <a class="sb-item" href="#">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+            상담 매뉴얼
+          </a>
+        </nav>
+      </div>
+
+      <div class="sb-group">
+        <div class="sb-group-label">AI</div>
+        <nav class="sb-menu">
+          <a class="sb-item" href="#">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></span>
+            AI 어시스트 설정
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="sb-footer">
+      <div class="sb-profile" onclick="toast('프로필 메뉴')">
+        <div class="avatar">김</div>
+        <div class="profile-meta">
+          <span class="profile-name">김유플</span>
+          <span class="profile-sub">모바일1센터 · CS1팀</span>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content">
+    <!-- topbar -->
+    <header class="topbar">
+      <button class="icon-btn" title="사이드바" onclick="toggleSidebar()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+      </button>
+      <span class="topbar-sep"></span>
+      <nav class="breadcrumb">
+        <span class="crumb-muted">AI 상담어드바이저포털</span>
+        <span class="crumb-sep">›</span>
+        <span>실시간 상담</span>
+      </nav>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="설정" onclick="toast('설정')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- tabs: 열린 상담 세션 -->
+    <nav class="tabnav">
+      <div class="tab active" onclick="selectTab(this)">
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg></span>
+        <span class="tab-name">김O영 고객</span>
+        <span class="dot"></span>
+      </div>
+      <div class="tab" onclick="selectTab(this)">
+        <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg></span>
+        <span class="tab-name">박O수 고객</span>
+      </div>
+      <div class="tab" onclick="selectTab(this)">
+        <span class="tab-name">+ 새 상담</span>
+      </div>
+    </nav>
+
+    <!-- workspace -->
+    <div class="workspace">
+
+      <!-- ===== 실시간 상담 (좌) ===== -->
+      <section class="live">
+        <div class="panel-head">
+          <span class="panel-title">실시간 상담</span>
+          <span class="badge inbound">
+            <span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F8FAFC" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></span>
+            인입
+          </span>
+          <span class="spacer"></span>
+          <button class="sos" id="sosBtn" onclick="toggleSos()" title="긴급 지원 요청">
+            <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
+            SOS
+          </button>
+          <button class="icon-btn" title="대화 검색" onclick="toggleLiveSearch()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+        </div>
+
+        <div class="live-search" id="liveSearch" style="display:none;">
+          <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <input type="text" placeholder="대화 내용 검색" />
+        </div>
+
+        <div class="transcript" id="transcript">
+          <!-- 고객 이력 정보 영역 (스크롤 내부) -->
+          <div class="cust-info-area">
+            <div class="cust-card">
+              <div class="cust-head">
+                <span class="cust-name">김O영</span>
+                <span class="cust-phone">010-****-1234</span>
+                <span class="cust-tier risk">고위험 투자제한</span>
+              </div>
+            </div>
+
+            <!-- 인입 정보 카드 -->
+            <div class="info-alert dark">
+              <div class="info-alert-title">상담 인입 정보</div>
+              <div class="info-alert-row">인입 채널: [콜봇] 납부방법변경</div>
+              <div class="info-alert-row">호전환 정보: [모바일 일반상담] 인터넷 가입 문의</div>
+              <div class="info-alert-row">최근 상담: 모바일 유플러스 닷컴 구매 문의(1/15)</div>
+              <div class="info-alert-row ellipsis">디지털 채널 이용: [문자] 쿠폰 발급 완료 혜택, 1줄넘어가면 말줄임...</div>
+            </div>
+
+            <!-- 고위험 경고 Alert -->
+            <div class="info-alert danger">
+              <span class="info-alert-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+              <span class="info-alert-text">고위험 투자제한 고객입니다. 투자 권유 금지 대상자입니다.</span>
+            </div>
+
+            <!-- 정상 상태 알림 (녹색) -->
+            <div class="info-alert success">
+              <span class="info-alert-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+              <span class="info-alert-text">본인 확인 완료 · 상담 진행 가능</span>
+            </div>
+          </div>
+          <div class="msg cust"><span class="who">고객</span><div class="bubble">안녕하세요, 이번 달 요금이 평소보다 많이 나와서 문의드려요.</div><span class="time">14:02:11</span></div>
+          <div class="msg agent"><span class="who">상담사 (김유플)</span><div class="bubble">네 고객님, 안녕하세요. 확인 도와드리겠습니다. 본인 확인 먼저 진행할게요.</div><span class="time">14:02:24</span></div>
+          <div class="msg cust"><span class="who">고객</span><div class="bubble">네, 그리고 명의를 가족으로 변경하는 것도 가능한가요?</div><span class="time">14:02:48</span></div>
+          <div class="msg agent"><span class="who">상담사 (김유플)</span><div class="bubble">네, 명의변경도 가능합니다. 먼저 본인 확인 후 절차 안내해 드릴게요.</div><span class="time">14:03:02</span></div>
+          <div class="sys-msg"><span class="sys-text">✓ 본인 확인 완료 (ARS 인증)</span><span class="sys-time">14:03:15</span></div>
+          <div class="msg agent"><span class="who">상담사 (김유플)</span><div class="bubble">본인 확인 완료됐습니다. 이번 달 청구 명세 확인해 보니, 데이터 추가 사용분 3.2GB에 대해 17,600원이 과금되었네요.</div><span class="time">14:03:32</span></div>
+          <div class="msg cust"><span class="who">고객</span><div class="bubble">아... 그렇군요. 추가 요금이 그렇게 많이 나오나요?</div><span class="time">14:03:48</span></div>
+          <div class="msg agent"><span class="who">상담사 (김유플)</span><div class="bubble">5G 시그니처 요금제 기준 1GB당 5,500원으로 자동 과금됩니다. 데이터 알림 설정을 켜두시면 초과 전에 안내 받으실 수 있어요.</div><span class="time">14:04:05</span></div>
+
+          <!-- 고객 발화: NER 미판매상품 감지 -->
+          <div class="msg cust"><span class="who">고객</span><div class="bubble">그럼 <span class="ner-badge danger">미판매상품</span> 5G 무제한 라이트 요금제로 바꾸면 추가 요금 안 나오죠?</div><span class="time">14:04:22</span></div>
+
+          <!-- 상담사 발화: 오안내 가능성 NER 뱃지 -->
+          <div class="msg agent"><span class="who">상담사 (김유플)</span><div class="bubble">5G 너겟 무제한 요금제 라이트는 <span class="ner-badge caution">안내 유의</span> 월 65,000원에 데이터 무제한으로 이용 가능하세요.</div><span class="time">14:04:38</span></div>
+
+          <div class="msg cust"><span class="who">고객</span><div class="bubble">아 그렇군요, 그거 좋네요. 바로 변경해주세요.</div><span class="time">14:04:55</span></div>
+          <div class="msg typing"><span class="who">고객</span><div class="bubble"><span class="typing-dots"><span></span><span></span><span></span></span></div></div>
+        </div>
+
+        <!-- 좌측 하단 고정: AI 추천 스크립트 -->
+        <div class="live-script-fixed" id="liveScriptFixed">
+          <div class="script-suggest compact">
+            <div class="script-suggest-head">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#008CCD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              <span>추천 스크립트</span>
+              <span class="script-suggest-badge">실시간</span>
+            </div>
+            <div class="script-suggest-body">"문의 주신 내용으로 보아, 사용 중이시거나 확인 원하시는 요금제가 5G 다이렉트 무제한 요금제가 맞는지 먼저 여쭙고자 합니다. 해당 요금제는 기본요금이 59,000원이며, 약정을 선택하시면 약정 할인 혜택을 받으실 수 있고, 사용 중이신 카드 할인이나 가족 결합 할인 조건이 있다면 추가로 요금 부담을 줄이실 수 있습니다."</div>
+          </div>
+        </div>
+
+        <div class="live-foot">
+          <span class="rec-dot"></span>
+          <span>실시간 STT 변환 중</span>
+          <span class="live-sep">·</span>
+          <span>통화 03:52 경과</span>
+        </div>
+      </section>
+
+      <!-- resizer -->
+      <div class="resizer"><div class="grip">⋮</div></div>
+
+      <!-- ===== 상담 어시스트 (우) ===== -->
+      <section class="assist">
+        <div class="assist-head">
+          <span class="panel-title">상담 어시스트</span>
+          <span class="spacer"></span>
+          <div class="switch on" id="assistSwitch" onclick="toggleAssist()">
+            <span class="switch-label">어시스트</span>
+            <span class="track"><span class="thumb"></span></span>
+          </div>
+        </div>
+
+        <!-- 어시스트 ON: AI 대화형 -->
+        <div class="assist-body" id="assistBody">
+          <!-- ② 실시간 추천 스크립트 (구어체, 상담사 발화와 구분) -->
+          <div class="script-suggest">
+            <div class="script-suggest-head">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#008CCD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              <span>추천 스크립트</span>
+              <span class="script-suggest-badge">실시간</span>
+            </div>
+            <div class="script-suggest-body">"고객님, 이번 달 요금이 평소보다 높게 나오신 부분 확인해 드릴게요. 데이터 초과 사용분이 있으셔서 추가 요금이 발생했는데, 자세한 내역 하나씩 안내해 드릴게요."</div>
+            <div class="script-suggest-foot">
+              <button class="chip-btn primary" onclick="toast('스크립트를 입력창에 삽입했습니다.')">삽입</button>
+              <button class="chip-btn" onclick="toast('복사되었습니다.')">복사</button>
+            </div>
+          </div>
+
+          <!-- AI 질문 추천 (ready 상태) -->
+          <div class="chat-row ai">
+            <div class="ai-avatar"><svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,5 6.5,6.5 5,10 3.5,6.5 0,5 3.5,3.5" fill="#008CCD"/></svg></div>
+            <div class="chat-bubble suggestion" onclick="askQuestion('요금이 왜 올랐나요?')">요금이 왜 올랐나요?</div>
+            <div class="chat-feedback"></div>
+          </div>
+          <div class="chat-row ai">
+            <div class="ai-avatar"><svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,5 6.5,6.5 5,10 3.5,6.5 0,5 3.5,3.5" fill="#008CCD"/></svg></div>
+            <div class="chat-bubble suggestion" onclick="askQuestion('명의변경 절차 알려줘')">명의변경 절차 알려줘</div>
+            <div class="chat-feedback">
+              <button class="fb-btn" title="좋아요" onclick="toast('피드백 감사합니다.')">👍</button>
+              <button class="fb-btn" title="아쉬워요" onclick="toast('피드백 감사합니다.')">👎</button>
+            </div>
+          </div>
+
+          <!-- AI Q&A 답변 + ③ 명확한 출처 노출 -->
+          <div class="chat-row ai">
+            <div class="ai-avatar"><svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,5 6.5,6.5 5,10 3.5,6.5 0,5 3.5,3.5" fill="#008CCD"/></svg></div>
+            <div class="chat-answer">
+              <div class="chat-bubble answer-head">명의변경 절차 안내</div>
+              <div class="answer-body">
+                <p>명의변경은 아래 절차로 진행됩니다.</p>
+                <p>1. 본인 확인 (기존 명의자 + 신규 명의자)</p>
+                <p>2. 가족관계 증빙 서류 제출</p>
+                <p>3. 변경 동의 및 처리 완료 (약 10분 소요)</p>
+                <p>4. 변경 완료 시 기존 요금제는 유지되며, 부가서비스는 일부 초기화될 수 있습니다.</p>
+              </div>
+              <!-- ③ 출처 명시 -->
+              <div class="source-list">
+                <div class="source-label">📎 출처</div>
+                <a class="source-link" href="#" onclick="toast('문서 열기: 명의변경 업무매뉴얼'); return false;">명의변경 업무매뉴얼 v3.2 <span class="source-loc">§2.1 절차</span></a>
+                <a class="source-link" href="#" onclick="toast('문서 열기: 가족관계 증빙 안내'); return false;">가족관계 증빙 서류 안내 <span class="source-loc">FAQ #47</span></a>
+              </div>
+              <div class="answer-sources">
+                <button class="fb-btn" title="좋아요" onclick="toast('피드백 감사합니다.')">👍</button>
+                <button class="fb-btn" title="아쉬워요" onclick="toast('피드백 감사합니다.')">👎</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 사용자 질문 (우측) -->
+          <div class="chat-row user">
+            <div class="chat-bubble user-bubble">데이터 추가 요금은 얼마인가요?</div>
+          </div>
+
+          <!-- AI 응답 + 출처 -->
+          <div class="chat-row ai">
+            <div class="ai-avatar"><svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,5 6.5,6.5 5,10 3.5,6.5 0,5 3.5,3.5" fill="#008CCD"/></svg></div>
+            <div class="chat-answer">
+              <div class="chat-bubble answer-head">데이터 추가 요금</div>
+              <div class="answer-body">
+                <p>5G 시그니처 요금제 기준, 기본 제공 데이터 초과 시 <b>1GB당 5,500원</b>이 자동 과금됩니다.</p>
+                <p>이번 달 고객님의 초과 사용량: <b>3.2GB</b> → 추가 요금 약 17,600원</p>
+              </div>
+              <div class="source-list">
+                <div class="source-label">📎 출처</div>
+                <a class="source-link" href="#" onclick="toast('문서 열기: 5G 요금제 안내서'); return false;">5G 요금제 과금 기준 안내서 <span class="source-loc">p.12 데이터 초과 과금</span></a>
+              </div>
+              <div class="answer-sources">
+                <button class="fb-btn" title="좋아요" onclick="toast('피드백 감사합니다.')">👍</button>
+                <button class="fb-btn" title="아쉬워요" onclick="toast('피드백 감사합니다.')">👎</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ① 할루시네이션 경고: 미존재 상품 -->
+          <div class="chat-row ai">
+            <div class="ai-avatar"><svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,5 6.5,6.5 5,10 3.5,6.5 0,5 3.5,3.5" fill="#008CCD"/></svg></div>
+            <div class="chat-answer">
+              <div class="chat-bubble answer-head">데이터 무제한 전환 안내</div>
+              <div class="hallucination-warn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span class="hw-tag">미존재 상품</span>
+                <span class="hw-text">해당 상품은 현재 판매하지 않는 상품입니다. 안내에 주의하세요.</span>
+              </div>
+              <div class="answer-body faded">
+                <p><s>5G 무제한 라이트 요금제로 전환하시면 추가 요금 없이 이용 가능합니다.</s></p>
+              </div>
+              <div class="source-list">
+                <div class="source-label warn">⚠ 근거 없음</div>
+                <span class="source-none">지식베이스에 일치하는 문서를 찾을 수 없습니다.</span>
+              </div>
+              <div class="answer-sources">
+                <button class="fb-btn" title="좋아요" onclick="toast('피드백 감사합니다.')">👍</button>
+                <button class="fb-btn" title="아쉬워요" onclick="toast('피드백: 부정확한 답변으로 신고됨')">👎</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ① 할루시네이션 경고: 대답 불가 -->
+          <div class="chat-row ai">
+            <div class="ai-avatar"><svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 6.5,3.5 10,5 6.5,6.5 5,10 3.5,6.5 0,5 3.5,3.5" fill="#008CCD"/></svg></div>
+            <div class="chat-answer">
+              <div class="hallucination-warn block">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+                <span class="hw-tag muted">대답 불가</span>
+                <span class="hw-text">해당 질문에 대한 답변을 생성할 수 없습니다. 관련 지식이 등록되지 않았거나, 답변 신뢰도가 기준 미달입니다.</span>
+              </div>
+              <div class="answer-sources">
+                <button class="fb-btn" title="지식 등록 요청" onclick="toast('지식 등록 요청이 전송되었습니다.')">📝</button>
+                <button class="fb-btn" title="아쉬워요" onclick="toast('피드백 감사합니다.')">👎</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ② 실시간 추천 스크립트 #2 -->
+          <div class="script-suggest">
+            <div class="script-suggest-head">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#008CCD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              <span>추천 스크립트</span>
+              <span class="script-suggest-badge">실시간</span>
+            </div>
+            <div class="script-suggest-body">"명의변경은 가까운 매장 방문 또는 전화로도 진행 가능하세요. 가족관계증명서 원본 한 부만 준비해 주시면 돼요. 처리 시간은 대략 10분 정도 걸립니다."</div>
+            <div class="script-suggest-foot">
+              <button class="chip-btn primary" onclick="toast('스크립트를 입력창에 삽입했습니다.')">삽입</button>
+              <button class="chip-btn" onclick="toast('복사되었습니다.')">복사</button>
+              <span class="script-source">출처: 명의변경 업무매뉴얼 §2.3</span>
+            </div>
+          </div>
+
+          <!-- AI 에러 상태 -->
+          <div class="chat-row ai">
+            <div class="ai-avatar error"><svg width="12" height="12" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#DC2626"/><path d="M8 4.5v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".7" fill="#fff"/></svg></div>
+            <div class="chat-bubble error-bubble">요청을 처리하지 못했어요. 다시 시도해 주세요.</div>
+          </div>
+        </div>
+
+        <!-- 어시스트 OFF: empty state -->
+        <div class="empty-state" id="assistEmpty">
+          <div class="empty-media">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+          </div>
+          <div class="empty-title">상담 어시스트가 꺼져 있어요</div>
+          <div class="empty-desc">어시스트를 켜면 실시간 대화 내용을 분석해 추천 스크립트와 관련 지식을 자동으로 제안합니다.</div>
+        </div>
+
+        <!-- composer -->
+        <div class="composer-wrap">
+          <div class="composer">
+            <textarea placeholder="상담 어시스트에게 질문하거나 요청하세요. (예: 명의변경 절차 알려줘)"></textarea>
+            <div class="composer-foot">
+              <span class="spacer"></span>
+              <div class="model-dropdown-wrap">
+                <button class="model-btn" onclick="toggleModelDropdown()">
+                  <span id="modelLabel">빠른답변</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="model-dropdown" id="modelDropdown">
+                  <div class="model-option active" onclick="selectModel(this, '빠른답변')">빠른답변</div>
+                  <div class="model-option" onclick="selectModel(this, '깊은생각')">깊은생각</div>
+                  <div class="model-option" onclick="selectModel(this, '자동')">자동</div>
+                </div>
+              </div>
+              <button class="send-btn" onclick="sendAssist()" title="보내기">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F8FAFC" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+              </button>
+            </div>
+          </div>
+          <p class="composer-note">상담 어시스트는 AI 기반 안내 서비스로, 제공되는 정보는 참고용으로 활용해 주세요.</p>
+        </div>
+
+        <!-- 최초 로딩 state -->
+        <div class="state-pane" id="loadingPane">
+          <div class="state-media">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+          </div>
+          <div class="state-title">상담 어시스트를 불러오는 중...</div>
+          <div class="state-desc">고객 정보와 상담 컨텍스트를 분석하고 있어요. 잠시만 기다려 주세요.</div>
+          <div class="progress"><div class="bar"></div></div>
+        </div>
+
+        <!-- 오류 / 재로그인 state -->
+        <div class="state-pane" id="errorPane">
+          <div class="state-media">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="state-title">세션이 만료되었어요</div>
+          <div class="state-desc">보안을 위해 자동 로그아웃되었습니다. 다시 로그인하면 상담을 이어서 진행할 수 있어요.</div>
+          <button class="state-btn" onclick="toast('로그인 화면으로 이동합니다.')">다시 로그인</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== LEADER MONITOR (inside content area) ===== -->
+    <div class="leader-view" id="leaderView" style="display:none;">
+      <div class="leader-header">
+        <span class="leader-title">실시간 상태 모니터링</span>
+        <span class="leader-timer">00:03:52</span>
+      </div>
+      <div class="leader-body">
+        <!-- Left: Summary + Table -->
+        <div class="leader-left">
+          <div class="leader-summary-card">
+            <div class="summary-header">총원 12명</div>
+            <div class="summary-stats">
+              <div class="stat-col">
+                <span class="stat-badge inbound">인입</span>
+                <span class="stat-count">5</span>
+              </div>
+              <div class="stat-col">
+                <span class="stat-badge outbound">아웃바운드</span>
+                <span class="stat-count">4</span>
+              </div>
+              <div class="stat-col">
+                <span class="stat-badge etc">기타</span>
+                <span class="stat-count">3</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="leader-table-wrap">
+            <table class="leader-table">
+              <thead>
+                <tr>
+                  <th>이름</th>
+                  <th>상태</th>
+                  <th>통화시간</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="row-active" onclick="selectAgent(this, '김유플')">
+                  <td><a class="agent-link active">김유플</a></td>
+                  <td><span class="status-badge sos"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>SOS</span></td>
+                  <td>03:52</td>
+                </tr>
+                <tr onclick="selectAgent(this, '박지민')">
+                  <td><a class="agent-link">박지민</a></td>
+                  <td><span class="status-badge outbound">Outbound</span></td>
+                  <td>12:30</td>
+                </tr>
+                <tr onclick="selectAgent(this, '이서연')">
+                  <td><a class="agent-link">이서연</a></td>
+                  <td><span class="status-badge inbound">Inbound</span></td>
+                  <td>05:12</td>
+                </tr>
+                <tr onclick="selectAgent(this, '정하늘')">
+                  <td><a class="agent-link">정하늘</a></td>
+                  <td><span class="status-badge waiting">대기중</span></td>
+                  <td>—</td>
+                </tr>
+                <tr onclick="selectAgent(this, '최민수')">
+                  <td><a class="agent-link">최민수</a></td>
+                  <td><span class="status-badge inbound">Inbound</span></td>
+                  <td>08:44</td>
+                </tr>
+                <tr onclick="selectAgent(this, '한소희')">
+                  <td><a class="agent-link">한소희</a></td>
+                  <td><span class="status-badge logout">로그아웃</span></td>
+                  <td>—</td>
+                </tr>
+                <tr onclick="selectAgent(this, '강도윤')">
+                  <td><a class="agent-link">강도윤</a></td>
+                  <td><span class="status-badge anomaly"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>이상감지</span></td>
+                  <td>15:22</td>
+                </tr>
+                <tr onclick="selectAgent(this, '윤서준')">
+                  <td><a class="agent-link">윤서준</a></td>
+                  <td><span class="status-badge normal">정상</span></td>
+                  <td>02:10</td>
+                </tr>
+                <tr onclick="selectAgent(this, '임채원')">
+                  <td><a class="agent-link">임채원</a></td>
+                  <td><span class="status-badge outbound">Outbound</span></td>
+                  <td>06:55</td>
+                </tr>
+                <tr onclick="selectAgent(this, '송예린')">
+                  <td><a class="agent-link">송예린</a></td>
+                  <td><span class="status-badge inbound">Inbound</span></td>
+                  <td>01:33</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Chat Monitor -->
+        <div class="leader-right">
+          <div class="leader-chat-header">
+            <span class="leader-chat-name" id="leaderChatName">김유플</span>
+            <span class="badge inbound" style="margin-left:8px;">
+              <span class="ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F8FAFC" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></span>
+              Inbound
+            </span>
+          </div>
+          <div class="leader-chat-search">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+            <input type="text" placeholder="대화 내용 검색" />
+          </div>
+          <div class="leader-chat-messages" id="leaderChatMessages">
+            <div class="sys-msg"><span class="sys-text">상담이 시작되었습니다.</span><span class="sys-time">14:01:58</span></div>
+            <div class="leader-msg cust">
+              <div class="leader-bubble cust-bubble">안녕하세요, 이번 달 요금이 평소보다 많이 나와서 문의드려요.</div>
+              <span class="leader-msg-time">14:02:11</span>
+            </div>
+            <div class="leader-msg agent">
+              <div class="leader-bubble agent-bubble">네 고객님, 안녕하세요. 확인 도와드리겠습니다.</div>
+              <span class="leader-msg-time">14:02:24</span>
+            </div>
+            <div class="sys-msg"><span class="sys-text">✓ 본인 확인 완료 (ARS 인증)</span><span class="sys-time">14:03:15</span></div>
+            <div class="leader-msg cust">
+              <div class="leader-bubble cust-bubble">네, 그리고 명의를 가족으로 변경하는 것도 가능한가요?</div>
+              <span class="leader-msg-time">14:02:48</span>
+            </div>
+            <div class="leader-msg agent">
+              <div class="leader-bubble agent-bubble">네, 명의변경도 가능합니다. 먼저 본인 확인 후 절차 안내해 드릴게요.</div>
+              <span class="leader-msg-time">14:03:02</span>
+            </div>
+            <div class="leader-msg agent">
+              <div class="leader-bubble agent-bubble">본인 확인 완료됐습니다. 이번 달 청구 명세 확인해 보니, 데이터 추가 사용분 3.2GB에 대해 17,600원이 과금되었네요.</div>
+              <span class="leader-msg-time">14:03:32</span>
+            </div>
+            <div class="leader-msg cust">
+              <div class="leader-bubble cust-bubble">아... 그렇군요. 추가 요금이 그렇게 많이 나오나요?</div>
+              <span class="leader-msg-time">14:03:48</span>
+            </div>
+            <div class="leader-msg agent">
+              <div class="leader-bubble agent-bubble">5G 시그니처 요금제 기준 1GB당 5,500원으로 자동 과금됩니다. 데이터 알림 설정을 켜두시면 초과 전에 안내 받으실 수 있어요.</div>
+              <span class="leader-msg-time">14:04:05</span>
+            </div>
+          </div>
+          <button class="new-msg-btn" onclick="scrollLeaderChat()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F8FAFC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+            새 메시지로 이동
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DIALOG: 의견보내기 (Feedback) ===== -->
+<div class="dialog-overlay" id="feedbackDialog">
+  <div class="dialog-modal">
+    <div class="dialog-header">
+      <span class="dialog-title">의견보내기</span>
+      <button class="dialog-close" onclick="closeDialog('feedbackDialog')" title="닫기">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body">
+      <div class="star-rating" id="starRating">
+        <button class="star" data-value="1" onclick="setRating(1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <button class="star" data-value="2" onclick="setRating(2)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <button class="star" data-value="3" onclick="setRating(3)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <button class="star" data-value="4" onclick="setRating(4)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <button class="star" data-value="5" onclick="setRating(5)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+      </div>
+      <p class="dialog-label">사용 중 불편했던 점이나 바라는 점을 남겨주세요.</p>
+      <div class="dialog-field">
+        <label class="field-label">상세 의견</label>
+        <textarea class="dialog-textarea" placeholder="의견을 입력해 주세요."></textarea>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn-cancel" onclick="closeDialog('feedbackDialog')">취소</button>
+      <button class="btn-primary" onclick="closeDialog('feedbackDialog'); toast('의견이 전송되었습니다.')">보내기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DIALOG: 팀변경 (Team Change) ===== -->
+<div class="dialog-overlay" id="teamChangeDialog">
+  <div class="dialog-modal">
+    <div class="dialog-header">
+      <span class="dialog-title">팀변경</span>
+      <button class="dialog-close" onclick="closeDialog('teamChangeDialog')" title="닫기">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body">
+      <div class="dialog-field">
+        <label class="field-label">팀</label>
+        <div class="select-wrap">
+          <select class="dialog-select">
+            <option value="" disabled selected>선택</option>
+            <option>모바일1센터 · CS1팀</option>
+            <option>모바일1센터 · CS2팀</option>
+            <option>인터넷센터 · 기술지원팀</option>
+          </select>
+          <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="dialog-field">
+        <label class="field-label">직급</label>
+        <div class="select-wrap">
+          <select class="dialog-select disabled" disabled>
+            <option value="" disabled selected>선택</option>
+            <option>사원</option>
+            <option>주임</option>
+            <option>대리</option>
+            <option>과장</option>
+          </select>
+          <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="dialog-field">
+        <label class="field-label">역할</label>
+        <div class="select-wrap">
+          <select class="dialog-select disabled" disabled>
+            <option value="" disabled selected>선택</option>
+            <option>상담사</option>
+            <option>QA</option>
+            <option>리더</option>
+          </select>
+          <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn-cancel" onclick="closeDialog('teamChangeDialog')">취소</button>
+      <button class="btn-primary" onclick="closeDialog('teamChangeDialog'); toast('팀이 변경되었습니다.')">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DIALOG: 대화 슬롯 (Slot Feedback) ===== -->
+<div class="dialog-overlay" id="slotDialog">
+  <div class="dialog-modal">
+    <div class="dialog-header">
+      <span class="dialog-title">대화 슬롯</span>
+      <button class="dialog-close" onclick="closeDialog('slotDialog')" title="닫기">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body">
+      <div class="slot-toggles">
+        <button class="slot-toggle active" onclick="pickSlotToggle(this)" style="width:132px">질문이 도움이 됐어요</button>
+        <button class="slot-toggle" onclick="pickSlotToggle(this)" style="width:160px">응답이 부정확해요</button>
+        <button class="slot-toggle" onclick="pickSlotToggle(this)" style="width:41px">기타</button>
+      </div>
+      <div class="dialog-field">
+        <label class="field-label">상세 의견</label>
+        <textarea class="dialog-textarea" placeholder="구체적인 의견을 입력해 주세요."></textarea>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn-cancel" onclick="closeDialog('slotDialog')">취소</button>
+      <button class="btn-primary" onclick="closeDialog('slotDialog'); toast('피드백이 전송되었습니다.')">보내기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 데모용 상태 전환 바 -->
+<div class="demo-bar">
+  <button class="on" onclick="setState('default', this)">기본</button>
+  <button onclick="setState('loading', this)">로딩</button>
+  <button onclick="setState('error', this)">오류</button>
+  <span class="demo-sep"></span>
+  <button onclick="openDialog('feedbackDialog', this)">피드백</button>
+  <button onclick="openDialog('teamChangeDialog', this)">팀변경</button>
+  <button onclick="openDialog('slotDialog', this)">슬롯</button>
+  <span class="demo-sep"></span>
+  <button onclick="setState('leader', this)">리더</button>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="advisor.js"></script>
+</body>
+</html>

@@ -698,7 +698,7 @@ body {
 
 /* ===== 고객 여정 — 최소 신호 다이제스트 카드 ===== */
 .digest-card {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  display: flex; align-items: center; justify-content: flex-start; gap: 24px;
   background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
   padding: 16px 20px; box-shadow: var(--shadow-sm); cursor: pointer; transition: all 0.2s;
 }
@@ -1119,4 +1119,140 @@ body { background: #F7F7FB; }
 /* 클릭 가능 영역 밑줄 처리 */
 .journey-signal-strip:hover .js-right-link {
   color: var(--uplus-magenta);
+}
+
+
+/* ===== 고객 여정 신호 — 한 줄 스트립 (위계 유지) ===== */
+.journey-strip {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0 20px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  gap: 16px;
+}
+.journey-strip.two-line {
+  height: auto;
+  padding: 16px 20px;
+}
+.journey-strip:hover {
+  border-color: var(--uplus-magenta);
+  box-shadow: 0 2px 8px rgba(124, 92, 252, 0.1);
+}
+
+.jstrip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.jstrip-row-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.jstrip-row-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 24px;
+}
+
+.jstrip-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.jstrip-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #020617;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+}
+
+.jstrip-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.jstrip-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #020617;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+}
+.jstrip-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #020617;
+  white-space: nowrap;
+  letter-spacing: -0.3px;
+}
+.jstrip-trend {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+}
+.jstrip-trend.bad { color: var(--red); }
+.jstrip-trend.good { color: var(--green); }
+.jstrip-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: #64748B;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+}
+.jstrip-sep {
+  width: 1px;
+  height: 14px;
+  background: #E2E8F0;
+  flex-shrink: 0;
+}
+.jstrip-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: -0.1px;
+}
+.jstrip-badge.warn {
+  color: #D97706;
+  background: #FFFBEB;
+  border: 1px solid #FCD34D;
+}
+.jstrip-insight {
+  font-size: 13px;
+  font-weight: 400;
+  color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  letter-spacing: -0.1px;
+}
+
+.jstrip-right {
+  flex-shrink: 0;
+}
+.jstrip-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #020617;
+  text-decoration: underline;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
 }

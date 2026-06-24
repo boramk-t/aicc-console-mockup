@@ -90,19 +90,24 @@
     </aside>
   </div>
 
-  <!-- 고객 여정 최소 신호 (운영 관리자 전용 슬림 스트립) -->
-  <section class="digest-strip">
-    <div class="digest-head">
-      <span class="section-title">고객 여정 <span class="ai-chip">운영 관리자</span></span>
-      <span class="funnel-updated">어제(06/09) 기준 · 일배치</span>
-    </div>
-    <div class="digest-card" onclick="location.href='funnel.html'">
-      <div class="digest-left">
-        <div class="dg-label">상담사 연결률 <span class="dg-sub">전주 동요일 대비</span></div>
-        <div class="dg-value">48.0<small>%</small> <span class="dg-trend up bad">▲ 2.6%p</span></div>
-        <div class="digest-insight"><span class="dg-flag warn">주의</span> <span>셀프 처리가 줄고 상담사 연결이 늘었어요.</span></div>
+  <!-- 고객 여정 신호 (2줄 스트립: 상단=맥락, 하단=수치) -->
+  <section class="journey-strip two-line" onclick="location.href='funnel.html'">
+    <div class="jstrip-content">
+      <div class="jstrip-row-top">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 19C9 20.6569 7.65685 22 6 22C4.34315 22 3 20.6569 3 19C3 17.3431 4.34315 16 6 16C7.65685 16 9 17.3431 9 19ZM9 19H17.5C18.4283 19 19.3185 18.6313 19.9749 17.9749C20.6313 17.3185 21 16.4283 21 15.5C21 14.5717 20.6313 13.6815 19.9749 13.0251C19.3185 12.3687 18.4283 12 17.5 12H6.5C5.57174 12 4.6815 11.6313 4.02513 10.9749C3.36875 10.3185 3 9.42826 3 8.5C3 7.57174 3.36875 6.6815 4.02513 6.02513C4.6815 5.36875 5.57174 5 6.5 5H15M15 5C15 6.65685 16.3431 8 18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5Z" stroke="#020617" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="jstrip-title">고객 여정 신호</span>
+        <span class="jstrip-badge warn">주의</span>
+        <span class="jstrip-insight">셀프 처리가 줄고 상담사 연결이 늘었어요.</span>
       </div>
-      <span class="digest-link" style="text-decoration: underline;">여정 분석 보기 ›</span>
+      <div class="jstrip-row-bottom">
+        <span class="jstrip-label">상담사 연결률</span>
+        <span class="jstrip-value">48.0%</span>
+        <span class="jstrip-trend bad">▲ 2.6%p</span>
+        <span class="jstrip-sub">전주 동요일 대비 · 전일(06/15) 기준</span>
+      </div>
+    </div>
+    <div class="jstrip-right">
+      <span class="jstrip-link">여정 분석 보기 ›</span>
     </div>
   </section>
 

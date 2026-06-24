@@ -381,3 +381,163 @@ body {
   .cj { flex-direction: column; }
   .cj-merge { justify-content: center; }
 }
+
+/* ===== 채널 노드: 이탈/해결 분리 노드 ===== */
+.cj-lane-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.cj-branches { display: flex; gap: 8px; }
+.cj-bnode {
+  flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; background: #fff;
+}
+.cj-bnode.self { border-left: 3px solid var(--green); }
+.cj-bnode.end { border-left: 3px solid var(--red); }
+.cb-name { font-size: 11px; font-weight: 600; color: var(--text-secondary); }
+.cb-val { font-size: 14px; font-weight: 800; }
+.cj-bnode.self .cb-val { color: var(--green); }
+.cj-bnode.end .cb-val { color: var(--red); }
+
+/* 로고 마크 (AICC 통합 포털) */
+.logo-mark { width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#7C5CFC,#9B8AFB); color: #fff; font-weight: 900; font-size: 15px; margin-right: 8px; }
+.logo-aicc { font-size: 15px; font-weight: 800; color: var(--text-primary); }
+.gnb-logo { display: flex; align-items: center; }
+
+/* ===== 3단계 흐름: 채널 → 분기(셀프/이탈) → 상담사 연결 ===== */
+.cj-lane > .cj-node { flex: 1; }
+.cj-step { display: block; margin-top: 6px; font-size: 10px; font-weight: 600; color: var(--text-muted); }
+.cj-stage2 { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.cj-legend .cjl-item b { color: var(--uplus-magenta); }
+
+/* ===== 노드 번호(단계) 표기 ===== */
+.cj-node { position: relative; }
+.cj-step {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px;
+  padding: 0 6px; border-radius: 10px; background: var(--uplus-magenta-pale); color: var(--uplus-magenta);
+  font-size: 11px; font-weight: 800; margin-bottom: 6px;
+}
+.cj-step.on { background: var(--uplus-magenta); color: #fff; margin-bottom: 8px; }
+.cj-stage2 { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.cb-step {
+  flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+  min-width: 26px; height: 18px; padding: 0 5px; border-radius: 5px; font-size: 10px; font-weight: 800;
+  background: var(--bg-subtle); color: var(--text-secondary); margin-right: 2px;
+}
+.cj-bnode.self .cb-step { background: #ecfdf5; color: var(--green); }
+.cj-bnode.end .cb-step { background: #fef2f2; color: var(--red); }
+.cj-bnode { gap: 8px; }
+.cb-name { flex: 1; }
+
+/* ===== Journey Flow 디자인 정돈 (넘버링 제거 버전) ===== */
+.cj-node {
+  display: flex; align-items: center; gap: 9px; padding: 13px 16px;
+  background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--uplus-magenta);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+}
+.cj-ico {
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 8px; background: var(--uplus-magenta-pale);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.cj-node .cj-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.cj-node .cj-val { margin-left: auto; font-size: 16px; font-weight: 800; color: var(--text-primary); }
+
+.cj-stage2 { gap: 10px; }
+.cj-bnode {
+  display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+  background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm); box-shadow: var(--shadow-sm);
+}
+.cb-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cb-name { flex: 1; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.cb-val { font-size: 14px; font-weight: 800; }
+.cj-bnode.self { border-left-color: var(--green); }
+.cj-bnode.self .cb-dot { background: var(--green); }
+.cj-bnode.self .cb-val { color: var(--green); }
+.cj-bnode.end { border-left-color: var(--red); }
+.cj-bnode.end .cb-dot { background: var(--red); }
+.cj-bnode.end .cb-val { color: var(--red); }
+
+.cj-arrow { color: #c4c1d6; font-size: 24px; font-weight: 400; line-height: 1; }
+
+.cj-node.agent {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: linear-gradient(135deg, #7C5CFC, #9B8AFB); border: none; color: #fff;
+  min-width: 150px; text-align: center; padding: 18px 20px; box-shadow: 0 6px 18px rgba(124,92,252,0.28);
+}
+.cj-node.agent .cj-ico { background: rgba(255,255,255,0.22); }
+.cj-node.agent .cj-name { color: #fff; font-size: 13px; font-weight: 700; margin-top: 6px; }
+.cj-node.agent .cj-val.big { color: #fff; font-size: 24px; }
+.cj-node.agent .cj-merge-sub { color: rgba(255,255,255,0.9); }
+
+.cj-legend { gap: 16px; }
+.cj-legend b { display: none; }
+
+/* ===== Journey Flow v2 — 채널별 세로 흐름 컬럼 + 공통 합류 바 ===== */
+.cjv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cjv-col { display: flex; flex-direction: column; align-items: stretch; }
+.cjv-head {
+  display: flex; align-items: center; gap: 9px; padding: 13px 16px;
+  background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--uplus-magenta);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+}
+.cjv-ico { width: 30px; height: 30px; flex-shrink: 0; border-radius: 8px; background: var(--uplus-magenta-pale); display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+.cjv-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.cjv-total { margin-left: auto; font-size: 16px; font-weight: 800; color: var(--text-primary); }
+.cjv-down { text-align: center; color: #c4c1d6; font-size: 18px; line-height: 1; margin: 6px 0; }
+.cjv-outs { display: flex; flex-direction: column; gap: 8px; }
+.cjv-out {
+  display: flex; align-items: center; gap: 8px; padding: 11px 13px;
+  background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm); box-shadow: var(--shadow-sm);
+}
+.cjv-out .cb-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cjv-out .cb-name { flex: 1; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.cjv-out .cb-val { font-size: 14px; font-weight: 800; }
+.cjv-out.self { border-left-color: var(--green); }
+.cjv-out.self .cb-dot { background: var(--green); }
+.cjv-out.self .cb-val { color: var(--green); }
+.cjv-out.end { border-left-color: var(--red); }
+.cjv-out.end .cb-dot { background: var(--red); }
+.cjv-out.end .cb-val { color: var(--red); }
+.cjv-out.agent { border-left-color: var(--uplus-magenta); background: var(--uplus-magenta-pale); }
+.cjv-out.agent .cb-dot { background: var(--uplus-magenta); }
+.cjv-out.agent .cb-name { color: var(--uplus-magenta); font-weight: 700; }
+.cjv-out.agent .cb-val { color: var(--uplus-magenta); }
+
+/* 공통 합류 바 */
+.cjv-merge {
+  display: flex; align-items: center; gap: 10px; margin-top: 16px; padding: 14px 20px;
+  background: linear-gradient(135deg, #7C5CFC, #9B8AFB); border-radius: var(--radius-md);
+  color: #fff; box-shadow: 0 6px 18px rgba(124,92,252,0.28);
+}
+.cjm-ico { width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.22); display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+.cjm-label { font-size: 14px; font-weight: 800; }
+.cjm-sub { font-size: 11px; color: rgba(255,255,255,0.85); }
+.cjm-val { margin-left: auto; font-size: 24px; font-weight: 800; }
+
+@media (max-width: 760px) { .cjv { grid-template-columns: 1fr; } }
+
+/* ===== Journey Flow — Watchtower식 단계 컬럼 흐름 ===== */
+.jflow { display: flex; align-items: stretch; gap: 12px; }
+.jf-stage { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; }
+.jf-stage-h { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--text-secondary); }
+.jf-stage-h span { font-size: 12px; font-weight: 800; color: var(--text-primary); }
+.jf-nodes { display: flex; flex-direction: column; gap: 10px; flex: 1; justify-content: center; }
+.jf-node { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--uplus-magenta); border-radius: var(--radius-sm); padding: 11px 13px; box-shadow: var(--shadow-sm); }
+.jf-ico { font-size: 15px; flex-shrink: 0; }
+.jf-nm { font-size: 12.5px; font-weight: 700; color: var(--text-primary); }
+.jf-node b { margin-left: auto; font-size: 15px; font-weight: 800; color: var(--text-primary); }
+.jf-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.jf-node.self { border-left-color: var(--green); }
+.jf-node.self .jf-dot { background: var(--green); }
+.jf-node.self b { color: var(--green); }
+.jf-node.end { border-left-color: var(--red); }
+.jf-node.end .jf-dot { background: var(--red); }
+.jf-node.end b { color: var(--red); }
+.jf-node.agent { background: linear-gradient(135deg, #7C5CFC, #9B8AFB); border: none; color: #fff; flex: 1; }
+.jf-node.agent .jf-nm { color: #fff; }
+.jf-node.agent b { color: #fff; font-size: 18px; }
+.jf-arrow { align-self: center; color: #c4c1d6; font-size: 26px; font-weight: 400; flex-shrink: 0; }
+
+@media (max-width: 760px) {
+  .jflow { flex-direction: column; }
+  .jf-arrow { transform: rotate(90deg); align-self: center; }
+}

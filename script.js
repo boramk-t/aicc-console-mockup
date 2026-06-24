@@ -28,10 +28,9 @@ document.addEventListener('click', (e) => {
   if (profile  && !profile.contains(e.target))  profile.classList.remove('open');
 });
 
-/* ===== 자주 찾는 메뉴 모달 ===== */
+/* ===== 즐겨찾기 설정 모달 (번호 슬롯) ===== */
 function openFavModal() {
   document.getElementById('favModal').classList.add('open');
-  syncSelectState();
   updateFavCount();
 }
 function closeFavModal(e) {
@@ -43,26 +42,40 @@ function closeFavModalDirect() {
 }
 function saveFav() {
   document.getElementById('favModal').classList.remove('open');
-  showToast('자주 찾는 메뉴가 저장되었습니다.');
+  showToast('역할 또는 권한 변경으로 즐겨찾기 메뉴 수정 적용되었습니다.');
+}
+function addFavSlot() {
+  const slots = document.getElementById('favSlots');
+  if (slots.children.length >= 5) { showToast('즐겨찾기는 최대 5개까지 설정할 수 있습니다.'); return; }
+  const div = document.createElement('div');
+  div.className = 'fav-slot';
+  div.innerHTML =
+    '<span class="fav-num"></span>' +
+    '<select class="fav-select"><option>실시간 상담</option><option>AI 상담품질관리</option><option>상담 분석</option><option>지식 관리</option><option>캠페인 관리</option><option>통계 리포트</option></select>' +
+    '<select class="fav-select placeholder"><option>메뉴 선택</option></select>' +
+    '<button class="fav-del" onclick="removeFavSlot(this)">🗑</button>';
+  slots.appendChild(div);
+  renumberFavSlots();
+}
+function removeFavSlot(btn) {
+  btn.closest('.fav-slot').remove();
+  renumberFavSlots();
+}
+function renumberFavSlots() {
+  [...document.querySelectorAll('#favSlots .fav-slot')].forEach((s, i) => {
+    s.querySelector('.fav-num').textContent = i + 1;
+  });
+  updateFavCount();
 }
 function updateFavCount() {
-  const checkboxes = document.querySelectorAll('.modal-checkbox-label input[type="checkbox"]');
-  let count = [...checkboxes].filter(cb => cb.checked).length;
-  if (count > 5) {
-    const last = [...checkboxes].reverse().find(cb => cb.checked);
-    if (last) { last.checked = false; count = 5; }
-    showToast('자주 찾는 메뉴는 최대 5개까지 설정할 수 있습니다.');
-  }
-  document.getElementById('favCount').textContent = `${count} / 5 선택됨`;
-  syncSelectState();
+  const n = document.querySelectorAll('#favSlots .fav-slot').length;
+  const el = document.getElementById('favCount');
+  if (el) el.textContent = `(${n}/5)`;
 }
-function syncSelectState() {
-  document.querySelectorAll('.modal-service-item').forEach(item => {
-    const cb  = item.querySelector('input[type="checkbox"]');
-    const sel = item.querySelector('.modal-menu-select');
-    if (cb && sel) sel.disabled = !cb.checked;
-  });
-}
+
+/* ===== AI 추천 카드 ===== */
+function dismissReco(btn) { btn.closest('.reco-card').remove(); showToast('AI 추천을 닫았습니다.'); }
+function addReco(btn, name) { btn.closest('.reco-card').remove(); showToast(`'${name}'을(를) 즐겨찾기에 추가했습니다.`); }
 
 /* ===== AI 추천 넛지 닫기 ===== */
 function rejectNudge() {
@@ -96,5 +109,4 @@ function simulateSkeleton() {
 
 document.addEventListener('DOMContentLoaded', () => {
   simulateSkeleton();
-  syncSelectState();
 });
